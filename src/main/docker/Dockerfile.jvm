@@ -1,0 +1,5 @@
+FROM adoptopenjdk/openjdk11-openj9:jre-11.0.3_7_openj9-0.14.0-alpine
+EXPOSE 8080
+COPY /target/lib/* /deployments/lib/
+COPY /target/*-runner.jar /deployments/app.jar
+ENTRYPOINT ["java", "-jar","-Djava.net.preferIPv4Stack=true","-Djava.net.preferIPv4Addresses=true","/deployments/app.jar"]
