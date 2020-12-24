@@ -1,9 +1,18 @@
-package ci.gouv.dgbf.dto;
+package ci.gouv.dgbf.domain;
 
+import org.hibernate.annotations.Immutable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class LigneDepense {
+@Entity(name = "V_LIGNE_DEPENSE")
+@Immutable
+public class LigneDepense{
+    @Id
+    @Column(updatable = false, nullable = false)
     public String ligneDepenseId;
     public String exercice;
     public String activiteId;
@@ -17,7 +26,6 @@ public class LigneDepense {
     public String sectionLibelle;
     public String sectionCode;
     public String uaId;
-    public String secbId;
     public String financementId;
     public BigDecimal montantAe;
     public BigDecimal montantCp;
@@ -45,7 +53,7 @@ public class LigneDepense {
         this.sectionLibelle = sectionLibelle;
         this.sectionCode = sectionCode;
         this.uaId = uaId;
-        this.secbId = secbId;
+        this.sectionId = secbId;
         this.financementId = financementId;
         this.montantAe = montantAe;
         this.montantCp = montantCp;
@@ -69,7 +77,7 @@ public class LigneDepense {
                 Objects.equals(sectionLibelle, that.sectionLibelle) &&
                 Objects.equals(sectionCode, that.sectionCode) &&
                 Objects.equals(uaId, that.uaId) &&
-                Objects.equals(secbId, that.secbId) &&
+                Objects.equals(sectionId, that.sectionId) &&
                 Objects.equals(financementId, that.financementId) &&
                 Objects.equals(montantAe, that.montantAe) &&
                 Objects.equals(montantCp, that.montantCp);
@@ -77,6 +85,6 @@ public class LigneDepense {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ligneDepenseId, exercice, activiteId, natureEconomiqueId, natureEconomiqueCode, natureEconomiqueLibelle, activiteCode, activiteLibelle, usbId, sectionId, sectionLibelle, sectionCode, uaId, secbId, financementId, montantAe, montantCp);
+        return Objects.hash(ligneDepenseId, exercice, activiteId, natureEconomiqueId, natureEconomiqueCode, natureEconomiqueLibelle, activiteCode, activiteLibelle, usbId, sectionId, sectionLibelle, sectionCode, uaId, sectionId, financementId, montantAe, montantCp);
     }
 }

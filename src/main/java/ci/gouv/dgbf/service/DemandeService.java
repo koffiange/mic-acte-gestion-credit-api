@@ -4,6 +4,9 @@ import ci.gouv.dgbf.domain.Demande;
 import ci.gouv.dgbf.domain.Visa;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class DemandeService implements PanacheRepositoryBase<Demande, String> {
     public void persist(Demande demande){
         if (demande.uuid != null){
