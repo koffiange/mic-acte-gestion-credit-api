@@ -2,24 +2,35 @@ package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Demande;
+import ci.gouv.dgbf.domain.Signataire;
 import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.dto.ActeDto;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
 public class ActeService implements PanacheRepositoryBase<Acte, String> {
+
+    @Inject
+    SignataireService signataireService;
+
+
     public List<Acte> findByDemande(String uuid){
         return find("demande.uuid", uuid).list();
     }
 
-    public void persist(Acte acte){
-        if (acte.uuid != null){
-            Acte old = Acte.findById(acte.uuid);
-            this.update(old, acte);
+    public void persist(ActeDto acteDto){
+        if (acteDto.acte.uuid != null){
+            Acte old = Acte.findById(acteDto.acte.uuid);
+            this.update(old, acteDto.acte);
+            signataireService.deleteByActe(acteDto.acte.uuid);
+            signataireService.persistAll(acteDto.signataireList, acteDto.acte);
         } else {
-            acte.persist();
+            acteDto.acte.persist();
+            signataireService.persistAll(acteDto.signataireList, acteDto.acte);
         }
     }
 
@@ -31,5 +42,10 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.natureActe = acte.natureActe;
         old.reference = acte.reference;
         old.persist();
+    }
+
+    public void delete(String uuid){
+        deleteById(uuid);
+        signataireService.deleteByActe(uuid);
     }
 }

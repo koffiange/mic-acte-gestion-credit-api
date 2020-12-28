@@ -1,5 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 import ci.gouv.dgbf.domain.Acte;
+import ci.gouv.dgbf.dto.ActeDto;
 import ci.gouv.dgbf.service.ActeService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -31,11 +32,15 @@ public class ActeResource implements BaseResource<Acte>{
         return acteService.findById(uuid);
     }
 
-    @POST
-    @Path("/acte")
     @Override
     public void persist(Acte acte) {
-        acteService.persist(acte);
+
+    }
+
+    @POST
+    @Path("/acte")
+    public void persist(ActeDto acteDto) {
+        acteService.persist(acteDto);
     }
 
     @PUT
