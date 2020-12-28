@@ -1,14 +1,17 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Demande;
 import ci.gouv.dgbf.domain.Operation;
-import ci.gouv.dgbf.domain.Visa;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @ApplicationScoped
 public class OperationService implements PanacheRepositoryBase<Operation, String> {
+
     public void persist(Operation operation){
         if (operation.uuid != null){
             Operation old = Operation.findById(operation.uuid);
@@ -27,9 +30,11 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         old.disponibiliteCredit = operation.disponibiliteCredit;
         old.effetOperation = operation.effetOperation;
         old.exercice = operation.exercice;
+        old.sourceFinancement = operation.sourceFinancement;
         old.ligneDepenseUuid = operation.ligneDepenseUuid;
         old.montantOperationAE = operation.montantOperationAE;
         old.montantOperationCP = operation.montantOperationCP;
+        old.typeOperation = operation.typeOperation;
         old.natureEconomique = operation.natureEconomique;
         old.natureEconomiqueCode = operation.natureEconomiqueCode;
         old.persist();

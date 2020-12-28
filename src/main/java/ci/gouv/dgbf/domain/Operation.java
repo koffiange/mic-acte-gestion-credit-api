@@ -2,6 +2,7 @@ package ci.gouv.dgbf.domain;
 
 import ci.gouv.dgbf.enumeration.DisponibiliteCreditOperation;
 import ci.gouv.dgbf.enumeration.EffetOperation;
+import ci.gouv.dgbf.enumeration.TypeOperation;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,10 +16,12 @@ public class Operation extends BaseEntity{
     public String natureEconomiqueCode;
     public String natureEconomique;
     public String exercice;
+    public String sourceFinancement;
     public BigDecimal budgetActuelAE;
     public BigDecimal budgetActuelCP;
     public BigDecimal montantOperationAE;
     public BigDecimal montantOperationCP;
+    public TypeOperation typeOperation;
     public EffetOperation effetOperation;
     public DisponibiliteCreditOperation disponibiliteCredit;
 

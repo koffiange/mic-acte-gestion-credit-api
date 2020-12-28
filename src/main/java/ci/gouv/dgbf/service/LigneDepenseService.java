@@ -45,16 +45,16 @@ public class LigneDepenseService {
     }
 
     private String buildQuery(String natureEconomiqueCode, String activiteCode, String sectionCode){
-        String queryString= baseQuery.concat(" WHERE 1=1 ");
+        String queryString= baseQuery.concat(" WHERE 1=1");
 
         if(natureEconomiqueCode!=null)
-            queryString = queryString.concat("AND natureEconomiqueCode = :natureEconomiqueCode");
+            queryString = queryString.concat(" AND natureEconomiqueCode = :natureEconomiqueCode");
 
         if(activiteCode!=null)
-            queryString = queryString.concat("AND activiteCode = :activiteCode");
+            queryString = queryString.concat(" AND activiteCode = :activiteCode");
 
         if(sectionCode!=null)
-            queryString = queryString.concat("AND sectionCode = :sectionCode");
+            queryString = queryString.concat(" AND sectionCode = :sectionCode");
 
         return queryString;
     }
