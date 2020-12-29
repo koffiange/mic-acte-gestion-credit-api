@@ -7,9 +7,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class LigneDepenseService {
+
+    private final Logger LOG = Logger.getLogger(this.getClass().getName());
     @Inject
     EntityManager em;
 
@@ -47,26 +50,27 @@ public class LigneDepenseService {
     private String buildQuery(String natureEconomiqueCode, String activiteCode, String sectionCode){
         String queryString= baseQuery.concat(" WHERE 1=1");
 
-        if(natureEconomiqueCode!=null)
+        if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             queryString = queryString.concat(" AND natureEconomiqueCode = :natureEconomiqueCode");
 
-        if(activiteCode!=null)
+        if(activiteCode!=null && !activiteCode.equals(""))
             queryString = queryString.concat(" AND activiteCode = :activiteCode");
 
-        if(sectionCode!=null)
+        if(sectionCode!=null && !sectionCode.equals(""))
             queryString = queryString.concat(" AND sectionCode = :sectionCode");
 
+        LOG.info("REQUETE : "+queryString);
         return queryString;
     }
 
     private void setParameters(String natureEconomiqueCode, String activiteCode, String sectionCode, TypedQuery<LigneDepense> query){
-        if(natureEconomiqueCode!=null)
+        if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             query.setParameter("natureEconomiqueCode", natureEconomiqueCode);
 
-        if(activiteCode!=null)
+        if(activiteCode!=null && !activiteCode.equals(""))
             query.setParameter("activiteCode", activiteCode);
 
-        if(sectionCode!=null)
+        if(sectionCode!=null && !sectionCode.equals(""))
             query.setParameter("sectionCode", sectionCode);
     }
 }
