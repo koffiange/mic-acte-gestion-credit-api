@@ -40,6 +40,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.dateSignature = acte.dateSignature;
         old.demande = acte.demande;
         old.natureActe = acte.natureActe;
+        old.natureTransaction = acte.natureTransaction;
         old.reference = acte.reference;
         old.persist();
     }

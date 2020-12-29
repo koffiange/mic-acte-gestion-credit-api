@@ -2,9 +2,12 @@ package ci.gouv.dgbf.domain;
 
 import ci.gouv.dgbf.enumeration.DisponibiliteCreditOperation;
 import ci.gouv.dgbf.enumeration.EffetOperation;
+import ci.gouv.dgbf.enumeration.NatureTransaction;
 import ci.gouv.dgbf.enumeration.TypeOperation;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
@@ -21,8 +24,11 @@ public class Operation extends BaseEntity{
     public BigDecimal budgetActuelCP;
     public BigDecimal montantOperationAE;
     public BigDecimal montantOperationCP;
+    @Enumerated(value = EnumType.STRING)
     public TypeOperation typeOperation;
+    @Enumerated(value = EnumType.STRING)
     public EffetOperation effetOperation;
+    @Enumerated(value = EnumType.STRING)
     public DisponibiliteCreditOperation disponibiliteCredit;
 
     @ManyToOne

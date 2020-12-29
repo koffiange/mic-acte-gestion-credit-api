@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 public class VisaSequenceService implements PanacheRepositoryBase<VisaSequence, String> {
 
-    @Transactional
+
     public void init(){
         VisaSequence visaSequence = new VisaSequence();
         visaSequence.persist();

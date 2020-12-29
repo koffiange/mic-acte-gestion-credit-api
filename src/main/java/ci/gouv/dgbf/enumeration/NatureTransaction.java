@@ -4,9 +4,9 @@ public enum NatureTransaction {
     VIREMENT("Virement"),
     TRANSFERT("Transfert");
 
-    public String value;
+    public String libelle;
 
-    NatureTransaction(String value) {
-        this.value = value;
+    NatureTransaction(String libelle) {
+        this.libelle = libelle;
     }
 }
