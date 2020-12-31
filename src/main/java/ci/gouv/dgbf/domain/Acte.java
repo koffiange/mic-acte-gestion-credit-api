@@ -27,6 +27,8 @@ public class Acte extends BaseEntity{
     public LocalDate dateSignature;
     @ManyToOne
     public Demande demande;
+    @ManyToOne
+    public ModeleVisa modeleVisa;
 
     public Acte() {
     }

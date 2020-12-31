@@ -1,5 +1,6 @@
 package ci.gouv.dgbf.service;
 
+import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Operation;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
@@ -21,6 +22,13 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         }
     }
 
+    public void persistAll(List<Operation> operationList, Acte acte){
+        operationList.forEach(operation -> {
+            operation.acte = acte;
+            operation.persist();
+        });
+    }
+
     private void update(Operation old, Operation operation){
         old.acte = operation.acte;
         old.activiteCode = operation.activiteCode;
@@ -38,5 +46,9 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         old.natureEconomique = operation.natureEconomique;
         old.natureEconomiqueCode = operation.natureEconomiqueCode;
         old.persist();
+    }
+
+    public void deleteByActe(String uuid){
+        delete("acte.uuid", uuid);
     }
 }

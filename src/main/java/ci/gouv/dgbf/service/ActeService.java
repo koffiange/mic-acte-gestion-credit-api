@@ -16,6 +16,8 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
 
     @Inject
     SignataireService signataireService;
+    @Inject
+    OperationService operationService;
 
 
     public List<Acte> findByDemande(String uuid){
@@ -26,11 +28,15 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
+            //
             signataireService.deleteByActe(acteDto.acte.uuid);
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
+            operationService.deleteByActe(acteDto.acte.uuid);
+            operationService.persistAll(acteDto.operationList, acteDto.acte);
         } else {
             acteDto.acte.persist();
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
+            operationService.persistAll(acteDto.operationList, acteDto.acte);
         }
     }
 
