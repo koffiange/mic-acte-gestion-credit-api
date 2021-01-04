@@ -5,15 +5,13 @@ import ci.gouv.dgbf.enumeration.NatureActe;
 import ci.gouv.dgbf.enumeration.NatureTransaction;
 import ci.gouv.dgbf.enumeration.StatutActe;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 public class Acte extends BaseEntity{
     public String libelle;
+    @Lob
     public String corpus;
     @Enumerated(EnumType.STRING)
     public CategorieActe categorieActe;

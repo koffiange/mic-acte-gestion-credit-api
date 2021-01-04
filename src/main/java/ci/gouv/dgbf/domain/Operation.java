@@ -17,7 +17,7 @@ public class Operation extends BaseEntity{
     public String activiteCode;
     public String activiteLibelle;
     public String natureEconomiqueCode;
-    public String natureEconomique;
+    public String natureEconomiqueLibelle;
     public String exercice;
     public String sourceFinancement;
     public BigDecimal budgetActuelAE;
