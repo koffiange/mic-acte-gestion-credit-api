@@ -49,13 +49,19 @@ public class LigneDepenseResource{
 
     @GET
     @Path("/criteres")
-    public List<LigneDepense> findByCritere(@QueryParam("nat_code") String nat_code,
-                                            @QueryParam("ads_code") String ads_code,
-                                            @QueryParam("secb_code") String secb_code){
-        LOG.info("nat_code : " + nat_code);
-        LOG.info("ads_code : " + ads_code);
-        LOG.info("secb_code : " + secb_code);
-        List<LigneDepense> ligneDepenses = ligneDepenseService.findByCritere(nat_code,ads_code, secb_code);
+    public List<LigneDepense> findByCritere(@QueryParam("natureEconomiqueCode") String natureEconomiqueCode,
+                                            @QueryParam("activiteCode") String activiteCode,
+                                            @QueryParam("sectionCode") String sectionCode,
+                                            @QueryParam("natureDepense") String natureDepense,
+                                            @QueryParam("programme") String programme,
+                                            @QueryParam("action") String action){
+        LOG.info("natureEconomiqueCode : " + natureEconomiqueCode);
+        LOG.info("activiteCode : " + activiteCode);
+        LOG.info("sectionCode : " + sectionCode);
+        LOG.info("natureDepense : " + natureDepense);
+        LOG.info("programmeaction : " + programme);
+        LOG.info("action : " + action);
+        List<LigneDepense> ligneDepenses = ligneDepenseService.findByCritere(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action);
         LOG.info("NB Ligne : " + ligneDepenses.size());
         return ligneDepenses;
     }

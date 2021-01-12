@@ -5,10 +5,12 @@ import ci.gouv.dgbf.domain.Demande;
 import ci.gouv.dgbf.domain.Signataire;
 import ci.gouv.dgbf.domain.Visa;
 import ci.gouv.dgbf.dto.ActeDto;
+import ci.gouv.dgbf.enumeration.StatutActe;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.PathParam;
 import java.util.List;
 
 @ApplicationScoped
@@ -22,6 +24,16 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
 
     public List<Acte> findByDemande(String uuid){
         return find("demande.uuid", uuid).list();
+    }
+
+    public ActeDto findActeDtoById(String uuid) {
+        ActeDto acteDto = new ActeDto();
+
+        acteDto.acte = Acte.findById(uuid);
+        acteDto.operationList = operationService.findByActe(acteDto.acte);
+        acteDto.signataireList = signataireService.findByActe(acteDto.acte.uuid);
+
+        return acteDto;
     }
 
     public void persist(ActeDto acteDto){
@@ -51,8 +63,25 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.persist();
     }
 
+    public void appliquerPlusiur(List<String> uuidList){
+        uuidList.forEach(this::appliquer);
+    }
+
+    public void appliquer(String uuid){
+        Acte acte = Acte.findById(uuid);
+        if (acte != null){
+            /*
+            Application des opérations dans un try and catch.
+            Si la procedure de passe bien, l'acte passera au satur appliqué.
+            Si non, il passera au statut échoué et la cause devra etre précisée.
+            */
+            acte.statutActe = StatutActe.APPLIQUE;
+        }
+    }
+
     public void delete(String uuid){
-        deleteById(uuid);
         signataireService.deleteByActe(uuid);
+        operationService.deleteByActe(uuid);
+        deleteById(uuid);
     }
 }

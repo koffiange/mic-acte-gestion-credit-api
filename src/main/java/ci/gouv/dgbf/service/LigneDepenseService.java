@@ -40,14 +40,16 @@ public class LigneDepenseService {
     }
 
 
-    public List<LigneDepense> findByCritere(String natureEconomiqueCode, String activiteCode, String sectionCode){
-        String queryString= this.buildQuery(natureEconomiqueCode, activiteCode, sectionCode);
+    public List<LigneDepense> findByCritere(String natureEconomiqueCode, String activiteCode, String sectionCode,
+                                            String natureDepense, String programme, String action){
+        String queryString= this.buildQuery(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action);
         TypedQuery<LigneDepense> query = em.createQuery(queryString, LigneDepense.class);
-        this.setParameters(natureEconomiqueCode, activiteCode, sectionCode, query);
+        this.setParameters(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action, query);
         return query.getResultList();
     }
 
-    private String buildQuery(String natureEconomiqueCode, String activiteCode, String sectionCode){
+    private String buildQuery(String natureEconomiqueCode, String activiteCode, String sectionCode,
+                              String natureDepense, String programme, String action){
         String queryString= baseQuery.concat(" WHERE 1=1");
 
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
@@ -59,11 +61,22 @@ public class LigneDepenseService {
         if(sectionCode!=null && !sectionCode.equals(""))
             queryString = queryString.concat(" AND sectionCode = :sectionCode");
 
+        if(natureDepense!=null && !natureDepense.equals(""))
+            queryString = queryString.concat(" AND natureDepense = :natureDepense");
+
+        if(programme!=null && !programme.equals(""))
+            queryString = queryString.concat(" AND usbCode = :usbCode");
+
+        if(action!=null && !action.equals(""))
+            queryString = queryString.concat(" AND actionCode = :actionCode");
+
         LOG.info("REQUETE : "+queryString);
         return queryString;
     }
 
-    private void setParameters(String natureEconomiqueCode, String activiteCode, String sectionCode, TypedQuery<LigneDepense> query){
+    private void setParameters(String natureEconomiqueCode, String activiteCode, String sectionCode,
+                               String natureDepense, String programme, String action,
+                               TypedQuery<LigneDepense> query){
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             query.setParameter("natureEconomiqueCode", natureEconomiqueCode);
 
@@ -72,5 +85,14 @@ public class LigneDepenseService {
 
         if(sectionCode!=null && !sectionCode.equals(""))
             query.setParameter("sectionCode", sectionCode);
+
+        if(natureDepense!=null && !natureDepense.equals(""))
+            query.setParameter("natureDepense", natureDepense);
+
+        if(programme!=null && !programme.equals(""))
+            query.setParameter("usbCode", programme);
+
+        if(action!=null && !action.equals(""))
+            query.setParameter("actionCode", action);
     }
 }

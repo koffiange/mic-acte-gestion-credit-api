@@ -32,14 +32,19 @@ public class ActeResource implements BaseResource<Acte>{
         return acteService.findById(uuid);
     }
 
+    @GET
+    @Path("/acte/dto/{uuid}")
+    public ActeDto findActeDtoById(@PathParam("uuid") String uuid) {
+        return acteService.findActeDtoById(uuid);
+    }
+
     @Override
     public void persist(Acte acte) {
-
     }
 
     @POST
     @Path("/acte")
-    public void persist(ActeDto acteDto) {
+    public void persist(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto) {
         acteService.persist(acteDto);
     }
 
@@ -50,10 +55,23 @@ public class ActeResource implements BaseResource<Acte>{
         acteService.persist(acte);
     }
 
+    @PUT
+    @Path("/acte/appliquer")
+    public void appliquer(String uuid) {
+        acteService.appliquer(uuid);
+    }
+
+    @PUT
+    @Path("/acte/appliquer/plusieurs")
+    public void appliquer(List<String> uuidList) {
+        acteService.appliquerPlusiur(uuidList);
+
+    }
+
     @DELETE
     @Path("/acte/{uuid}")
     @Override
     public void delete(@PathParam("uuid") String uuid) {
-        acteService.deleteById(uuid);
+        acteService.delete(uuid);
     }
 }

@@ -7,6 +7,7 @@ import ci.gouv.dgbf.enumeration.StatutActe;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Acte extends BaseEntity{

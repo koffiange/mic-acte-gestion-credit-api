@@ -10,6 +10,10 @@ import java.util.List;
 @ApplicationScoped
 public class OperationService implements PanacheRepositoryBase<Operation, String> {
 
+    public List<Operation> findByActe(Acte acte){
+        return list("acte.uuid", acte.uuid);
+    }
+
     public void persist(Operation operation){
         if (operation.uuid != null){
             Operation old = Operation.findById(operation.uuid);
