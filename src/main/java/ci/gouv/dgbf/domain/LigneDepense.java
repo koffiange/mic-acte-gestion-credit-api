@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity(name = "V_LIGNE_DEPENSE")
+@Entity(name = "V_LIGNE_DEPENSE_EXECUTION")
 @Immutable
 public class LigneDepense{
     @Id
@@ -29,11 +29,14 @@ public class LigneDepense{
     public String sourceFinancementId;
     public BigDecimal montantAe;
     public BigDecimal montantCp;
+    public BigDecimal montantDisponibleAE;
+    public BigDecimal montantDisponibleCP;
     public String natureDepense;
     public String actionCode;
     public String actionLibelle;
     public String usbCode;
     public String usbLibelle;
+    public String ligneStatut;
 
     public LigneDepense() {
     }
@@ -43,9 +46,9 @@ public class LigneDepense{
                         String natureEconomiqueLibelle, String activiteCode,
                         String activiteLibelle, String sourceFinancementId, String usbId, String sectionId,
                         String sectionLibelle, String sectionCode, String uaId,
-                        String secbId, BigDecimal montantAe,
-                        BigDecimal montantCp, String natureDepense, String actionCode, String actionLibelle,
-                        String usbCode, String usbLibelle) {
+                        String secbId, BigDecimal montantAe, BigDecimal montantCp,
+                        BigDecimal montantDisponibleAE, BigDecimal montantDisponibleCP,String natureDepense,
+                        String actionCode, String actionLibelle, String usbCode, String usbLibelle, String ligneStatut) {
         this.ligneDepenseId = ligneDepenseId;
         this.exercice = exercice;
         this.activiteId = activiteId;
@@ -63,11 +66,14 @@ public class LigneDepense{
         this.sectionId = secbId;
         this.montantAe = montantAe;
         this.montantCp = montantCp;
+        this.montantDisponibleAE = montantDisponibleAE;
+        this.montantDisponibleCP = montantDisponibleCP;
         this.natureDepense = natureDepense;
         this.actionCode = actionCode;
         this.actionLibelle = actionLibelle;
         this.usbCode = usbCode;
         this.usbLibelle = usbLibelle;
+        this.ligneStatut = ligneStatut;
     }
 
     @Override

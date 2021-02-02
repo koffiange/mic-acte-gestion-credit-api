@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,10 +14,11 @@ import java.util.logging.Logger;
 public class LigneDepenseService {
 
     private final Logger LOG = Logger.getLogger(this.getClass().getName());
+
     @Inject
     EntityManager em;
 
-    private final String baseQuery="SELECT ld FROM V_LIGNE_DEPENSE ld";
+    private final String baseQuery="SELECT ld FROM V_LIGNE_DEPENSE_EXECUTION ld";
 
     public List<LigneDepense> findAll(){
         TypedQuery<LigneDepense> query = em.createQuery(baseQuery, LigneDepense.class);
@@ -39,7 +41,7 @@ public class LigneDepenseService {
         return query.getResultList();
     }
 
-
+    @Transactional
     public List<LigneDepense> findByCritere(String natureEconomiqueCode, String activiteCode, String sectionCode,
                                             String natureDepense, String programme, String action){
         String queryString= this.buildQuery(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action);

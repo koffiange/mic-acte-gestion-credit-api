@@ -30,6 +30,10 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         });
     }
 
+    public List<Operation> verifierDisponibilite(List<Operation> operationList){
+        return null;
+    }
+
     private void update(Operation old, Operation operation){
         old.acte = operation.acte;
         old.activiteCode = operation.activiteCode;

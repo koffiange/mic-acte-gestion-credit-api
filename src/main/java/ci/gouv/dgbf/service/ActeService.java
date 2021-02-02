@@ -1,9 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Acte;
-import ci.gouv.dgbf.domain.Demande;
-import ci.gouv.dgbf.domain.Signataire;
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.*;
 import ci.gouv.dgbf.dto.ActeDto;
 import ci.gouv.dgbf.enumeration.StatutActe;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
@@ -20,6 +17,8 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     SignataireService signataireService;
     @Inject
     OperationService operationService;
+    @Inject
+    ReservationService reservationService;
 
 
     public List<Acte> findByDemande(String uuid){
@@ -49,6 +48,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             acteDto.acte.persist();
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
             operationService.persistAll(acteDto.operationList, acteDto.acte);
+            reservationService.persistReservationOfOperation(acteDto.operationList);
         }
     }
 
@@ -63,7 +63,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.persist();
     }
 
-    public void appliquerPlusiur(List<String> uuidList){
+    public void appliquerPlusieur(List<String> uuidList){
         uuidList.forEach(this::appliquer);
     }
 
@@ -75,6 +75,11 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             Si la procedure de passe bien, l'acte passera au satur appliqué.
             Si non, il passera au statut échoué et la cause devra etre précisée.
             */
+
+            // Déreservation des crédits
+            List<Operation> operationList = operationService.findByActe(acte);
+            reservationService.dereserverParOperation(operationList);
+            // Changement de statut de
             acte.statutActe = StatutActe.APPLIQUE;
         }
     }

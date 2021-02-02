@@ -42,6 +42,11 @@ public class ActeResource implements BaseResource<Acte>{
     public void persist(Acte acte) {
     }
 
+    @Override
+    public void update(Acte acte) {
+
+    }
+
     @POST
     @Path("/acte")
     public void persist(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto) {
@@ -49,10 +54,9 @@ public class ActeResource implements BaseResource<Acte>{
     }
 
     @PUT
-    @Path("/acte")
-    @Override
-    public void update(Acte acte) {
-        acteService.persist(acte);
+    @Path("/acte/dto/")
+    public void update(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto) {
+        acteService.persist(acteDto);
     }
 
     @PUT
@@ -64,8 +68,7 @@ public class ActeResource implements BaseResource<Acte>{
     @PUT
     @Path("/acte/appliquer/plusieurs")
     public void appliquer(List<String> uuidList) {
-        acteService.appliquerPlusiur(uuidList);
-
+        acteService.appliquerPlusieur(uuidList);
     }
 
     @DELETE
