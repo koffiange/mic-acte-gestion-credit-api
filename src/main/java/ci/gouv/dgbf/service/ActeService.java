@@ -39,7 +39,24 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
-            //
+
+            operationService.deleteByActe(acteDto.acte.uuid);
+            operationService.persistAll(acteDto.operationList, acteDto.acte);
+            reservationService.deleteByActe(acteDto.acte.uuid);
+        } else {
+            acteDto.acte.persist();
+            // signataireService.persistAll(acteDto.signataireList, acteDto.acte);
+            operationService.persistAll(acteDto.operationList, acteDto.acte);
+            // reservationService.persistReservationOfOperation(acteDto.operationList);
+        }
+    }
+
+
+    public void persist_old(ActeDto acteDto){
+        if (acteDto.acte.uuid != null){
+            Acte old = Acte.findById(acteDto.acte.uuid);
+            this.update(old, acteDto.acte);
+
             signataireService.deleteByActe(acteDto.acte.uuid);
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
             operationService.deleteByActe(acteDto.acte.uuid);

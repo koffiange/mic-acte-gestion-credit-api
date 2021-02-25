@@ -1,7 +1,8 @@
 package ci.gouv.dgbf.resource.v1;
 
+import ci.gouv.dgbf.domain.ActiviteDeService;
 import ci.gouv.dgbf.dto.Activite;
-import ci.gouv.dgbf.service.ActiviteService;
+import ci.gouv.dgbf.service.AdsService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
@@ -15,18 +16,24 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
 @Tag(name="Activités de services", description="Opération relatives aux Activités de services")
-public class ActiviteResource {
+public class AdsResource {
     @Inject
-    ActiviteService activiteService;
+    AdsService adsService;
 
     @GET
     public List<Activite> findAll(){
-        return activiteService.findAll();
+        return adsService.findAll();
     }
 
     @GET
     @Path("/code/{code}")
     public Activite findByCode(@PathParam("code") String code){
-        return activiteService.findByCode(code);
+        return adsService.findByCode(code);
+    }
+
+    @GET
+    @Path("/section/{code}")
+    public List<ActiviteDeService> findBySectionCode(@PathParam("code") String sectionCode){
+        return adsService.findBySectionCode(sectionCode);
     }
 }
