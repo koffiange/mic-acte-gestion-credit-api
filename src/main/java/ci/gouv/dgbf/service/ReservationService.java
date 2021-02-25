@@ -4,6 +4,7 @@ import ci.gouv.dgbf.domain.Operation;
 import ci.gouv.dgbf.domain.Reservation;
 import ci.gouv.dgbf.enumeration.MotifReservation;
 import ci.gouv.dgbf.enumeration.StatutReservation;
+import ci.gouv.dgbf.enumeration.TypeOperation;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +15,7 @@ import java.util.Map;
 @ApplicationScoped
 public class ReservationService  implements PanacheRepositoryBase<Reservation, String> {
     public void persistReservationOfOperation(List<Operation> operationList){
-        operationList.stream().map(Reservation::new).forEach(reservation -> reservation.persist());
+        operationList.stream().filter(operation -> operation.typeOperation.equals(TypeOperation.ORIGINE)).map(Reservation::new).forEach(reservation -> reservation.persist());
     }
 
     public void dereserverParOperation(List<Operation> operationList){
@@ -29,5 +30,9 @@ public class ReservationService  implements PanacheRepositoryBase<Reservation, S
         Reservation.update("statutReservation = :statutReservation " +
                 "WHERE motifReservation = :motifReservation " +
                 "AND motifReservationId = :motifReservationId ", params);
+    }
+
+    public void deleteByActe(String uuid){
+        delete("motifReservationId", uuid);
     }
 }

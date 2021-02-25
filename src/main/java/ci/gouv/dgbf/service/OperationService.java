@@ -5,6 +5,7 @@ import ci.gouv.dgbf.domain.Operation;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
@@ -30,9 +31,6 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         });
     }
 
-    public List<Operation> verifierDisponibilite(List<Operation> operationList){
-        return null;
-    }
 
     private void update(Operation old, Operation operation){
         old.acte = operation.acte;
@@ -43,7 +41,10 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         old.disponibiliteCredit = operation.disponibiliteCredit;
         old.effetOperation = operation.effetOperation;
         old.exercice = operation.exercice;
-        old.sourceFinancement = operation.sourceFinancement;
+        old.sourceFinancementCode = operation.sourceFinancementCode;
+        old.sourceFinancementLibelle = operation.sourceFinancementLibelle;
+        old.bailleurId = operation.bailleurId;
+        old.bailleurLibelle = operation.bailleurLibelle;
         old.ligneDepenseUuid = operation.ligneDepenseUuid;
         old.montantOperationAE = operation.montantOperationAE;
         old.montantOperationCP = operation.montantOperationCP;

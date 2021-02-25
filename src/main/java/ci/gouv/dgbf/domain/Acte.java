@@ -22,6 +22,7 @@ public class Acte extends BaseEntity{
     public StatutActe statutActe;
     @Enumerated(value = EnumType.STRING)
     public NatureTransaction natureTransaction;
+    @Column(unique = true)
     public String reference;
     public LocalDate dateSignature;
     @ManyToOne

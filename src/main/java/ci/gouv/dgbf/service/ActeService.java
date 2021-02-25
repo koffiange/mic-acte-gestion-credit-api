@@ -44,6 +44,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
             operationService.deleteByActe(acteDto.acte.uuid);
             operationService.persistAll(acteDto.operationList, acteDto.acte);
+            reservationService.deleteByActe(acteDto.acte.uuid);
         } else {
             acteDto.acte.persist();
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
@@ -87,6 +88,11 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     public void delete(String uuid){
         signataireService.deleteByActe(uuid);
         operationService.deleteByActe(uuid);
+        reservationService.deleteByActe(uuid);
         deleteById(uuid);
+    }
+
+    public boolean checkReferenceAlreadyExist(String reference){
+        return !Acte.find("reference", reference).list().isEmpty();
     }
 }

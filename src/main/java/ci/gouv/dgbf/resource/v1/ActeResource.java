@@ -6,8 +6,10 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Path("/v1/actes")
@@ -18,6 +20,9 @@ import java.util.List;
 public class ActeResource implements BaseResource<Acte>{
     @Inject
     ActeService acteService;
+
+    @Inject
+    Validator validator;
 
     @GET
     @Override
@@ -49,13 +54,13 @@ public class ActeResource implements BaseResource<Acte>{
 
     @POST
     @Path("/acte")
-    public void persist(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto) {
+    public void persist(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto){
         acteService.persist(acteDto);
     }
 
     @PUT
     @Path("/acte/dto/")
-    public void update(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto) {
+    public void update(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto){
         acteService.persist(acteDto);
     }
 
@@ -76,5 +81,13 @@ public class ActeResource implements BaseResource<Acte>{
     @Override
     public void delete(@PathParam("uuid") String uuid) {
         acteService.delete(uuid);
+    }
+
+
+
+    @GET
+    @Path("/acte/check-reference-already-exist")
+    public boolean checkReferenceAlreadyExist(@QueryParam("reference") String reference){
+        return acteService.checkReferenceAlreadyExist(reference);
     }
 }

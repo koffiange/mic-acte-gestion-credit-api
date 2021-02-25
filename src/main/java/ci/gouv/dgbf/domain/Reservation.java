@@ -23,11 +23,11 @@ public class Reservation extends BaseEntity{
     }
 
     public Reservation(Operation operation) {
-        this.montantAE = operation.budgetActuelAE;
+        this.montantAE = operation.montantOperationAE;
         this.montantCP = operation.montantOperationCP;
         this.statutReservation = StatutReservation.EN_ATTENTE_CONSOMMATION;
         this.motifReservation = MotifReservation.ACTE_MOUVEMENT_CREDIT;
-        this.motifReservationId = operation.uuid;
+        this.motifReservationId = operation.acte.uuid;
     }
 
     @Override

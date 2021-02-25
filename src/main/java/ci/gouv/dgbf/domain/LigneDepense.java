@@ -7,26 +7,31 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
-@Entity(name = "V_LIGNE_DEPENSE_EXECUTION")
+@Entity(name = "V_LIGNE_DEPENSE_IMPUTABLE")
 @Immutable
 public class LigneDepense{
     @Id
     @Column(updatable = false, nullable = false)
     public String ligneDepenseId;
     public String exercice;
-    public String activiteId;
     public String natureEconomiqueId;
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
+    public String activiteId;
     public String activiteCode;
     public String activiteLibelle;
     public String usbId;
     public String sectionId;
-    public String sectionLibelle;
     public String sectionCode;
+    public String sectionLibelle;
     public String uaId;
+    public String bailleurId;
+    public String bailleurLibelle;
     public String sourceFinancementId;
+    public String sourceFinancementCode;
+    public String sourceFinancementLibelle;
     public BigDecimal montantAe;
     public BigDecimal montantCp;
     public BigDecimal montantDisponibleAE;
@@ -37,6 +42,7 @@ public class LigneDepense{
     public String usbCode;
     public String usbLibelle;
     public String ligneStatut;
+
 
     public LigneDepense() {
     }
@@ -94,7 +100,6 @@ public class LigneDepense{
                 Objects.equals(sectionLibelle, that.sectionLibelle) &&
                 Objects.equals(sectionCode, that.sectionCode) &&
                 Objects.equals(uaId, that.uaId) &&
-                Objects.equals(sectionId, that.sectionId) &&
                 Objects.equals(montantAe, that.montantAe) &&
                 Objects.equals(montantCp, that.montantCp);
     }

@@ -2,8 +2,8 @@ package ci.gouv.dgbf.resource.v1;
 
 
 import ci.gouv.dgbf.domain.LigneDepense;
+import ci.gouv.dgbf.domain.Operation;
 import ci.gouv.dgbf.service.LigneDepenseService;
-import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
-@Tag(name="Operations", description="Opération relatives aux Opérations")
+@Tag(name="Lignes de dépenses", description="Opération relatives aux Lignes de dépense")
 public class LigneDepenseResource{
     private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
@@ -49,20 +49,55 @@ public class LigneDepenseResource{
 
     @GET
     @Path("/criteres")
-    public List<LigneDepense> findByCritere(@QueryParam("natureEconomiqueCode") String natureEconomiqueCode,
+    public List<LigneDepense> findByCritere(@QueryParam("exercice") String exercice,
+                                            @QueryParam("sourceFinancement") String sourceFinancement,
+                                            @QueryParam("natureEconomiqueCode") String natureEconomiqueCode,
                                             @QueryParam("activiteCode") String activiteCode,
+                                            @QueryParam("bailleur") String bailleur,
                                             @QueryParam("sectionCode") String sectionCode,
                                             @QueryParam("natureDepense") String natureDepense,
                                             @QueryParam("programme") String programme,
                                             @QueryParam("action") String action){
-        LOG.info("natureEconomiqueCode : " + natureEconomiqueCode);
-        LOG.info("activiteCode : " + activiteCode);
-        LOG.info("sectionCode : " + sectionCode);
-        LOG.info("natureDepense : " + natureDepense);
-        LOG.info("programmeaction : " + programme);
-        LOG.info("action : " + action);
-        List<LigneDepense> ligneDepenses = ligneDepenseService.findByCritere(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action);
+        List<LigneDepense> ligneDepenses = ligneDepenseService.findByCritere(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action);
         LOG.info("NB Ligne : " + ligneDepenses.size());
         return ligneDepenses;
+    }
+
+    @GET
+    @Path("/criteres/paginated")
+    public List<LigneDepense> findByCriterePaginated(@QueryParam("exercice") String exercice,
+                                                    @QueryParam("sourceFinancement") String sourceFinancement,
+                                                    @QueryParam("natureEconomiqueCode") String natureEconomiqueCode,
+                                                    @QueryParam("activiteCode") String activiteCode,
+                                                    @QueryParam("bailleur") String bailleur,
+                                                    @QueryParam("sectionCode") String sectionCode,
+                                                    @QueryParam("natureDepense") String natureDepense,
+                                                    @QueryParam("programme") String programme,
+                                                    @QueryParam("action") String action,
+                                                    @QueryParam("indexPremierElement") int indexPremierElement,
+                                                    @QueryParam("nombreElements") int nombreElements){
+        List<LigneDepense> ligneDepenses = ligneDepenseService.findByCriterePaginated(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action, indexPremierElement, nombreElements);
+        LOG.info("NB Ligne : " + ligneDepenses.size());
+        return ligneDepenses;
+    }
+
+    @GET
+    @Path("/criteres/count")
+    public long countByCritere(@QueryParam("exercice") String exercice,
+                               @QueryParam("sourceFinancement") String sourceFinancement,
+                               @QueryParam("natureEconomiqueCode") String natureEconomiqueCode,
+                               @QueryParam("activiteCode") String activiteCode,
+                               @QueryParam("bailleur") String bailleur,
+                               @QueryParam("sectionCode") String sectionCode,
+                               @QueryParam("natureDepense") String natureDepense,
+                               @QueryParam("programme") String programme,
+                               @QueryParam("action") String action){
+        return ligneDepenseService.countByCritere(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action);
+    }
+
+    @POST
+    @Path("/criteres/operations")
+    public List<LigneDepense> findByOperation(List<Operation> operationList){
+        return ligneDepenseService.findByOperation(operationList);
     }
 }

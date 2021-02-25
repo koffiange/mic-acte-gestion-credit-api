@@ -1,12 +1,14 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.LigneDepense;
+import ci.gouv.dgbf.domain.Operation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,7 +20,8 @@ public class LigneDepenseService {
     @Inject
     EntityManager em;
 
-    private final String baseQuery="SELECT ld FROM V_LIGNE_DEPENSE_EXECUTION ld";
+    private final String baseQuery="SELECT ldi FROM V_LIGNE_DEPENSE_IMPUTABLE ldi ";
+    private final String countBaseQuery="SELECT COUNT(*) FROM V_LIGNE_DEPENSE_IMPUTABLE lde ";
 
     public List<LigneDepense> findAll(){
         TypedQuery<LigneDepense> query = em.createQuery(baseQuery, LigneDepense.class);
@@ -41,24 +44,66 @@ public class LigneDepenseService {
         return query.getResultList();
     }
 
+
+    public List<LigneDepense> findByOperation(List<Operation> operationList){
+        List<LigneDepense> ligneDepenseList = new ArrayList<>();
+        operationList.stream()
+                .map(operation -> findByCritere(operation.exercice, operation.sourceFinancementCode, operation.natureEconomiqueCode,
+                operation.activiteCode, operation.bailleurId, "", "", "", ""))
+                .forEach(ligneDepenseList::addAll);
+        return ligneDepenseList;
+    }
+
     @Transactional
-    public List<LigneDepense> findByCritere(String natureEconomiqueCode, String activiteCode, String sectionCode,
-                                            String natureDepense, String programme, String action){
-        String queryString= this.buildQuery(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action);
+    public List<LigneDepense> findByCriterePaginated(String exercice, String sourceFinancement, String natureEconomiqueCode, String activiteCode,
+                                            String bailleur, String sectionCode, String natureDepense, String programme, String action, int indexPremierElement, int nombreElements){
+        String queryString= this.buildQuery(baseQuery, exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action);
         TypedQuery<LigneDepense> query = em.createQuery(queryString, LigneDepense.class);
-        this.setParameters(natureEconomiqueCode, activiteCode, sectionCode, natureDepense, programme, action, query);
+        LOG.info("====> query created");
+        if(indexPremierElement != 0 && nombreElements != 0) {
+            query.setFirstResult(indexPremierElement).setMaxResults(nombreElements);
+        } else {
+            query.setMaxResults(100);
+        }
+        LOG.info("====> query firstResult and maxResult set");
+        this.setParameters(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action, query);
+        LOG.info("====> query parameters set");
         return query.getResultList();
     }
 
-    private String buildQuery(String natureEconomiqueCode, String activiteCode, String sectionCode,
-                              String natureDepense, String programme, String action){
-        String queryString= baseQuery.concat(" WHERE 1=1");
+    @Transactional
+    public List<LigneDepense> findByCritere(String exercice, String sourceFinancement, String natureEconomiqueCode, String activiteCode,
+                                            String bailleur, String sectionCode, String natureDepense, String programme, String action){
+        String queryString= this.buildQuery(baseQuery, exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action);
+        TypedQuery<LigneDepense> query = em.createQuery(queryString, LigneDepense.class);
+        this.setParameters(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action, query);
+        return query.getResultList();
+    }
+
+    @Transactional
+    public long countByCritere(String exercice, String sourceFinancement, String natureEconomiqueCode, String activiteCode,
+                               String bailleur, String sectionCode, String natureDepense, String programme, String action){
+        String queryString= this.buildQuery(countBaseQuery, exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action);
+        TypedQuery<Long> query = em.createQuery(queryString, Long.class);
+        this.setParameters(exercice, sourceFinancement,natureEconomiqueCode, activiteCode, bailleur, sectionCode, natureDepense, programme, action, query);
+        return query.executeUpdate();
+    }
+
+    private String buildQuery(String query, String exercice, String sourceFinancement, String natureEconomiqueCode, String activiteCode,
+                              String bailleur, String sectionCode, String natureDepense, String programme, String action){
+        String queryString = query.concat("WHERE exercice = :exercice");
+
+        if(sourceFinancement!=null && !sourceFinancement.equals(""))
+            queryString = queryString.concat(" AND sourceFinancement = :sourceFinancement");
 
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             queryString = queryString.concat(" AND natureEconomiqueCode = :natureEconomiqueCode");
 
         if(activiteCode!=null && !activiteCode.equals(""))
             queryString = queryString.concat(" AND activiteCode = :activiteCode");
+
+        if(bailleur!=null && !bailleur.equals(""))
+            queryString = queryString.concat(" AND bailleur = :bailleur");
 
         if(sectionCode!=null && !sectionCode.equals(""))
             queryString = queryString.concat(" AND sectionCode = :sectionCode");
@@ -76,14 +121,24 @@ public class LigneDepenseService {
         return queryString;
     }
 
-    private void setParameters(String natureEconomiqueCode, String activiteCode, String sectionCode,
-                               String natureDepense, String programme, String action,
-                               TypedQuery<LigneDepense> query){
+    private void setParameters(String exercice, String sourceFinancement, String natureEconomiqueCode, String activiteCode,
+                               String bailleur, String sectionCode, String natureDepense, String programme, String action,
+                               TypedQuery<?> query){
+
+        if(exercice!=null && !exercice.equals(""))
+            query.setParameter("exercice", exercice);
+
+        if(sourceFinancement!=null && !sourceFinancement.equals(""))
+            query.setParameter("sourceFinancement", sourceFinancement);
+
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             query.setParameter("natureEconomiqueCode", natureEconomiqueCode);
 
         if(activiteCode!=null && !activiteCode.equals(""))
             query.setParameter("activiteCode", activiteCode);
+
+        if(bailleur!=null && !bailleur.equals(""))
+            query.setParameter("bailleur", bailleur);
 
         if(sectionCode!=null && !sectionCode.equals(""))
             query.setParameter("sectionCode", sectionCode);

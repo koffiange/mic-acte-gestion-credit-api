@@ -16,7 +16,12 @@ public class Operation extends BaseEntity{
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
     public String exercice;
-    public String sourceFinancement;
+    public String sourceFinancementCode;
+    public String sourceFinancementLibelle;
+    public String sectionCode;
+    public String sectionLibelle;
+    public String bailleurId;
+    public String bailleurLibelle;
     public BigDecimal budgetActuelAE;
     public BigDecimal budgetActuelCP;
     public BigDecimal montantOperationAE;
