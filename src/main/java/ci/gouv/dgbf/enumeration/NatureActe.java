@@ -2,7 +2,6 @@ package ci.gouv.dgbf.enumeration;
 
 public enum NatureActe {
     ARRETE("4", "Arrêté", "AR"),
-    ARRETE_INTERMINISTERIEL("4", "Arrêté Interministériel", "Acte Règlementaire (AR)"),
     DECRET("3", "Décret","AL"),
     DECISION("5", "Décision","AR"),
     LOI("1","Loi", "AL"),

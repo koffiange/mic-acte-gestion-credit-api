@@ -26,6 +26,7 @@ public class Operation extends BaseEntity{
     public BigDecimal budgetActuelCP;
     public BigDecimal montantOperationAE;
     public BigDecimal montantOperationCP;
+    public String financementId;
     @Transient
     public BigDecimal montantDisponibleAe;
     @Transient

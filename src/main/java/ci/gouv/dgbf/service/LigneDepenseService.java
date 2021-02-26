@@ -94,7 +94,7 @@ public class LigneDepenseService {
         String queryString = query.concat("WHERE exercice = :exercice");
 
         if(sourceFinancement!=null && !sourceFinancement.equals(""))
-            queryString = queryString.concat(" AND sourceFinancement = :sourceFinancement");
+            queryString = queryString.concat(" AND sourceFinancementCode = :sourceFinancementCode");
 
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             queryString = queryString.concat(" AND natureEconomiqueCode = :natureEconomiqueCode");
@@ -129,7 +129,7 @@ public class LigneDepenseService {
             query.setParameter("exercice", exercice);
 
         if(sourceFinancement!=null && !sourceFinancement.equals(""))
-            query.setParameter("sourceFinancement", sourceFinancement);
+            query.setParameter("sourceFinancementCode", sourceFinancement);
 
         if(natureEconomiqueCode!=null && !natureEconomiqueCode.equals(""))
             query.setParameter("natureEconomiqueCode", natureEconomiqueCode);
