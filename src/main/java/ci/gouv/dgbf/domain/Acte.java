@@ -10,6 +10,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@NamedStoredProcedureQuery(
+        name = "acte.copyIntoBIDF",
+        procedureName = "COPY_AO_INTO_BIDF",
+        parameters = {
+                @StoredProcedureParameter(
+                        name = "ACTE_ID",
+                        mode = ParameterMode.IN,
+                        type = String.class
+                )
+        })
 public class Acte extends BaseEntity{
     public String libelle;
     @Lob
@@ -31,5 +41,22 @@ public class Acte extends BaseEntity{
     public ModeleVisa modeleVisa;
 
     public Acte() {
+    }
+
+    @Override
+    public String toString() {
+        return "Acte{" +
+                "libelle='" + libelle + '\'' +
+                ", corpus='" + corpus + '\'' +
+                ", categorieActe=" + categorieActe +
+                ", natureActe=" + natureActe +
+                ", statutActe=" + statutActe +
+                ", natureTransaction=" + natureTransaction +
+                ", reference='" + reference + '\'' +
+                ", dateSignature=" + dateSignature +
+                ", demande=" + demande +
+                ", modeleVisa=" + modeleVisa +
+                ", uuid='" + uuid + '\'' +
+                '}';
     }
 }

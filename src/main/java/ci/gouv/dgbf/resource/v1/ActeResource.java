@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/v1/actes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,6 +19,7 @@ import java.util.List;
 @Transactional
 @Tag(name="Actes", description="Opération relatives aux Actes")
 public class ActeResource implements BaseResource<Acte>{
+    private final Logger LOG = Logger.getLogger(this.getClass().getName());
     @Inject
     ActeService acteService;
 
@@ -54,20 +56,24 @@ public class ActeResource implements BaseResource<Acte>{
 
     @POST
     @Path("/acte")
-    public void persist(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto){
-        acteService.persist(acteDto);
+    public Acte persist(ActeDto acteDto){
+        Acte acte = acteService.persist(acteDto);
+        return acte;
     }
 
     @PUT
     @Path("/acte/dto/")
     public void update(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto){
-        acteService.persist(acteDto);
+        Acte acte = acteService.persist(acteDto);
+        if (appliquer)
+            acteService.appliquer(acte);
     }
 
     @PUT
-    @Path("/acte/appliquer")
-    public void appliquer(String uuid) {
-        acteService.appliquer(uuid);
+    @Path("/acte/appliquer/{uuid}")
+    public void appliquer(@PathParam("uuid") String uuid) {
+        Acte acte = Acte.findById(uuid);
+        acteService.appliquer(acte);
     }
 
     @PUT

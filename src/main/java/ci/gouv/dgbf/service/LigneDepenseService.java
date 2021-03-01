@@ -103,7 +103,7 @@ public class LigneDepenseService {
             queryString = queryString.concat(" AND activiteCode = :activiteCode");
 
         if(bailleur!=null && !bailleur.equals(""))
-            queryString = queryString.concat(" AND bailleur = :bailleur");
+            queryString = queryString.concat(" AND bailleurId = :bailleurId");
 
         if(sectionCode!=null && !sectionCode.equals(""))
             queryString = queryString.concat(" AND sectionCode = :sectionCode");
@@ -138,7 +138,7 @@ public class LigneDepenseService {
             query.setParameter("activiteCode", activiteCode);
 
         if(bailleur!=null && !bailleur.equals(""))
-            query.setParameter("bailleur", bailleur);
+            query.setParameter("bailleurId", bailleur);
 
         if(sectionCode!=null && !sectionCode.equals(""))
             query.setParameter("sectionCode", sectionCode);

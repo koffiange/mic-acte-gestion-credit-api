@@ -7,8 +7,11 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
+import javax.persistence.EntityManager;
+import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ActeService implements PanacheRepositoryBase<Acte, String> {
@@ -19,6 +22,8 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     OperationService operationService;
     @Inject
     ReservationService reservationService;
+    @Inject
+    EntityManager em;
 
 
     public List<Acte> findByDemande(String uuid){
@@ -35,7 +40,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         return acteDto;
     }
 
-    public void persist(ActeDto acteDto){
+    public Acte persist(ActeDto acteDto){
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
@@ -45,7 +50,10 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             acteDto.acte.persist();
             operationService.persistAll(acteDto.operationList, acteDto.acte);
         }
+        return Acte.findById(acteDto.acte.uuid);
     }
+
+
 
 
     public void persist_old(ActeDto acteDto){
@@ -78,24 +86,26 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     }
 
     public void appliquerPlusieur(List<String> uuidList){
-        uuidList.forEach(this::appliquer);
+        uuidList.forEach(s -> {
+            Acte acte = Acte.findById(s);
+            this.appliquer(acte);
+        });
     }
 
-    public void appliquer(String uuid){
-        Acte acte = Acte.findById(uuid);
-        if (acte != null){
-            /*
-            Application des opérations dans un try and catch.
-            Si la procedure de passe bien, l'acte passera au satur appliqué.
-            Si non, il passera au statut échoué et la cause devra etre précisée.
-            */
 
-            // Déreservation des crédits
-            List<Operation> operationList = operationService.findByActe(acte);
-            reservationService.dereserverParOperation(operationList);
-            // Changement de statut de
+    public void appliquer(Acte acte){
+        if (acte != null){
+            // Application de l'acte.
+            this.appliquerActe(acte.uuid);
+            // Changement de statut de l'acte
             acte.statutActe = StatutActe.APPLIQUE;
         }
+    }
+
+    public void appliquerActe(String uuid){
+        StoredProcedureQuery storedProcedureQuery = em.createNamedStoredProcedureQuery("acte.copyIntoBIDF");
+        storedProcedureQuery.setParameter("ACTE_ID", uuid);
+        storedProcedureQuery.execute();
     }
 
     public void delete(String uuid){
