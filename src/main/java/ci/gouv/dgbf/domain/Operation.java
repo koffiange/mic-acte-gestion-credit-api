@@ -37,6 +37,7 @@ public class Operation extends BaseEntity{
     public EffetOperation effetOperation;
     @Enumerated(value = EnumType.STRING)
     public DisponibiliteCreditOperation disponibiliteCredit;
+    public boolean nouvelleImputation = false;
 
     @ManyToOne
     public Acte acte;

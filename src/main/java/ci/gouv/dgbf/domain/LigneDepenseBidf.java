@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "LIGNE_DEPENSE_BIDF")
 public class LigneDepenseBidf {
     @Id
     @Column(name = "ID")

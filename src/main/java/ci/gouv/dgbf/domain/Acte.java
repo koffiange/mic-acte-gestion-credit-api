@@ -35,6 +35,8 @@ public class Acte extends BaseEntity{
     @Column(unique = true)
     public String reference;
     public LocalDate dateSignature;
+    public String exercice;
+
     @ManyToOne
     public Demande demande;
     @ManyToOne
