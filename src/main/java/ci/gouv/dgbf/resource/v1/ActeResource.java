@@ -57,16 +57,13 @@ public class ActeResource implements BaseResource<Acte>{
     @POST
     @Path("/acte")
     public Acte persist(ActeDto acteDto){
-        Acte acte = acteService.persist(acteDto);
-        return acte;
+        return acteService.persist(acteDto);
     }
 
     @PUT
     @Path("/acte/dto/")
-    public void update(@QueryParam("appliquer") boolean appliquer, ActeDto acteDto){
-        Acte acte = acteService.persist(acteDto);
-        if (appliquer)
-            acteService.appliquer(acte);
+    public Acte update(ActeDto acteDto){
+        return acteService.persist(acteDto);
     }
 
     @PUT

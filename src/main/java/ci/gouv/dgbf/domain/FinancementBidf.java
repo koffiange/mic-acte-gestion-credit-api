@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.service;
+package ci.gouv.dgbf.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +19,6 @@ public class FinancementBidf {
     public String montantCP;
     @Column(name = "ACTE_ID")
     public String acteId;
-    @Column(name = "ETAT")
-    public String etat;
     @Column(name = "FIND_BVOTE_AE")
     public String findBudgetVoteAE;
     @Column(name = "FIND_BVOTE_CP")
