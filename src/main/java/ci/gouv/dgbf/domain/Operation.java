@@ -1,9 +1,6 @@
 package ci.gouv.dgbf.domain;
 
-import ci.gouv.dgbf.enumeration.DisponibiliteCreditOperation;
-import ci.gouv.dgbf.enumeration.EffetOperation;
-import ci.gouv.dgbf.enumeration.NatureTransaction;
-import ci.gouv.dgbf.enumeration.TypeOperation;
+import ci.gouv.dgbf.enumeration.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -37,7 +34,8 @@ public class Operation extends BaseEntity{
     public EffetOperation effetOperation;
     @Enumerated(value = EnumType.STRING)
     public DisponibiliteCreditOperation disponibiliteCredit;
-    public boolean nouvelleImputation = false;
+    @Enumerated(value = EnumType.STRING)
+    public OrigineImputation origineImputation;
 
     @ManyToOne
     public Acte acte;

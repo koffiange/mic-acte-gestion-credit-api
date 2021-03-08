@@ -21,13 +21,13 @@ public class AdsResource {
     AdsService adsService;
 
     @GET
-    public List<Activite> findAll(){
-        return adsService.findAll();
+    public List<ActiviteDeService> findAll(){
+        return adsService.listAll();
     }
 
     @GET
     @Path("/code/{code}")
-    public Activite findByCode(@PathParam("code") String code){
+    public ActiviteDeService findByCode(@PathParam("code") String code){
         return adsService.findByCode(code);
     }
 

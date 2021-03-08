@@ -11,6 +11,7 @@ public class ActeDto {
     public Acte acte;
     public List<Signataire> signataireList;
     public List<Operation> operationList;
+    public List<ImputationDto> imputationDtoList;
 
     public ActeDto() {
     }
@@ -36,6 +37,7 @@ public class ActeDto {
                 "acte=" + acte +
                 ", signataireList=" + signataireList +
                 ", operationList=" + operationList +
+                ", imputationDtoList=" + imputationDtoList +
                 '}';
     }
 }

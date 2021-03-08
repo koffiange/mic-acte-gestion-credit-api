@@ -23,9 +23,6 @@ public class ActeResource implements BaseResource<Acte>{
     @Inject
     ActeService acteService;
 
-    @Inject
-    Validator validator;
-
     @GET
     @Override
     public List<Acte> listAll() {
@@ -51,12 +48,13 @@ public class ActeResource implements BaseResource<Acte>{
 
     @Override
     public void update(Acte acte) {
-
     }
 
     @POST
     @Path("/acte")
     public Acte persist(ActeDto acteDto){
+        LOG.info("DTO RECEIVED");
+        LOG.info(acteDto.toString());
         return acteService.persist(acteDto);
     }
 

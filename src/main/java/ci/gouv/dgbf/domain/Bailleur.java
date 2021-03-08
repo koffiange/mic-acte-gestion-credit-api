@@ -10,9 +10,12 @@ import javax.persistence.Id;
 @Immutable
 public class Bailleur {
     @Id
-    public String bailleurId;
-    public String bailleurCode;
-    public String bailleurDesignation;
+    @Column(name = "BAILLEURID")
+    public String id;
+    @Column(name = "BAILLEURCODE")
+    public String code;
+    @Column(name = "BAILLEURDESIGNATION")
+    public String designation;
 
     public Bailleur() {
     }
@@ -20,9 +23,9 @@ public class Bailleur {
     @Override
     public String toString() {
         return "Bailleur{" +
-                "bailleurId='" + bailleurId + '\'' +
-                ", bailleurCode='" + bailleurCode + '\'' +
-                ", bailleurDesignation='" + bailleurDesignation + '\'' +
+                "bailleurId='" + id + '\'' +
+                ", bailleurCode='" + code + '\'' +
+                ", bailleurDesignation='" + designation + '\'' +
                 '}';
     }
 }

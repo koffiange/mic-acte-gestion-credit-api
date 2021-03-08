@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class AdsService implements ActiviteClient {
+public class AdsService {
 
     private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
@@ -31,29 +31,16 @@ public class AdsService implements ActiviteClient {
     @ConfigProperty(name = "application.ads.api.uri", defaultValue = "http://mic-activite-de-service-api/api/v1/")
     String baseUri;
     URI apiUri;
-    ActiviteClient client;
 
-    @PostConstruct
-    public void init() {
-        try {
-            apiUri = new URI(baseUri);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        client = RestClientBuilder.newBuilder()
-                .baseUri(apiUri)
-                .build(ActiviteClient.class);
+    public ActiviteDeService findByCode(String code) {
+        String stringQuery = baseQuery.concat("WHERE ads.adscode = :code");
+        TypedQuery<ActiviteDeService> query = em.createQuery(stringQuery, ActiviteDeService.class);
+        return query.getSingleResult();
     }
 
-
-    @Override
-    public List<Activite> findAll() {
-        return client.findAll();
-    }
-
-    @Override
-    public Activite findByCode(String code) {
-        return client.findByCode(code);
+    public List<ActiviteDeService> listAll(){
+        TypedQuery<ActiviteDeService> query = em.createQuery(baseQuery, ActiviteDeService.class);
+        return query.getResultList();
     }
 
     public List<ActiviteDeService> findBySectionCode(String sectionCode){

@@ -9,9 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.StoredProcedureQuery;
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ActeService implements PanacheRepositoryBase<Acte, String> {
@@ -20,6 +18,8 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     SignataireService signataireService;
     @Inject
     OperationService operationService;
+    @Inject
+    ImputationService imputationService;
     @Inject
     ReservationService reservationService;
     @Inject
@@ -34,6 +34,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         ActeDto acteDto = new ActeDto();
 
         acteDto.acte = Acte.findById(uuid);
+        // acteDto.imputationList = imputationService.findByActe(acteDto.acte);
         acteDto.operationList = operationService.findByActe(acteDto.acte);
         acteDto.signataireList = signataireService.findByActe(acteDto.acte.uuid);
 
@@ -44,10 +45,15 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
+            imputationService.deleteByActe(acteDto.acte.uuid);
+            if (!acteDto.imputationDtoList.isEmpty())
+                imputationService.persistAll(acteDto.imputationDtoList, acteDto.acte);
             operationService.deleteByActe(acteDto.acte.uuid);
             operationService.persistAll(acteDto.operationList, acteDto.acte);
         } else {
             acteDto.acte.persist();
+            if (!acteDto.imputationDtoList.isEmpty())
+                imputationService.persistAll(acteDto.imputationDtoList, acteDto.acte);
             operationService.persistAll(acteDto.operationList, acteDto.acte);
         }
         return Acte.findById(acteDto.acte.uuid);
@@ -109,7 +115,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     }
 
     public void delete(String uuid){
-        signataireService.deleteByActe(uuid);
+        imputationService.deleteByActe(uuid);
         operationService.deleteByActe(uuid);
         reservationService.deleteByActe(uuid);
         deleteById(uuid);
