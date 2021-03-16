@@ -8,26 +8,28 @@ import java.math.BigDecimal;
 @Entity
 public class Operation extends BaseEntity{
     public String ligneDepenseUuid;
+    public String usbCode;
+    public String usbLibelle;
+    public String sectionCode;
+    public String sectionLibelle;
     public String activiteCode;
     public String activiteLibelle;
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
-    public String exercice;
     public String sourceFinancementCode;
     public String sourceFinancementLibelle;
-    public String sectionCode;
-    public String sectionLibelle;
-    public String bailleurId;
+    public String bailleurCode;
     public String bailleurLibelle;
+    public String exercice;
+    public String financementId;
     public BigDecimal budgetActuelAE;
     public BigDecimal budgetActuelCP;
+    public BigDecimal montantDisponibleAE;
+    public BigDecimal montantDisponibleCP;
     public BigDecimal montantOperationAE;
     public BigDecimal montantOperationCP;
-    public String financementId;
-    @Transient
-    public BigDecimal montantDisponibleAe;
-    @Transient
-    public BigDecimal montantDisponibleCp;
+    public BigDecimal disponibleRestantAE;
+    public BigDecimal disponibleRestantCP;
     @Enumerated(value = EnumType.STRING)
     public TypeOperation typeOperation;
     @Enumerated(value = EnumType.STRING)

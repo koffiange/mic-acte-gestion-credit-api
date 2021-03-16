@@ -60,8 +60,6 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     }
 
 
-
-
     public void persist_old(ActeDto acteDto){
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
@@ -88,6 +86,10 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.natureActe = acte.natureActe;
         old.natureTransaction = acte.natureTransaction;
         old.reference = acte.reference;
+        old.cumulRetranchementAE = acte.cumulRetranchementAE;
+        old.cumulRetranchementCP = acte.cumulRetranchementCP;
+        old.cumulAjoutAE = acte.cumulAjoutAE;
+        old.cumulAjoutCP = acte.cumulAjoutCP;
         old.persist();
     }
 

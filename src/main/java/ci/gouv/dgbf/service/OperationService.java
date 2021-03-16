@@ -5,7 +5,6 @@ import ci.gouv.dgbf.domain.Operation;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
@@ -34,6 +33,10 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
 
     private void update(Operation old, Operation operation){
         old.acte = operation.acte;
+        old.usbCode = operation.usbCode;
+        old.usbLibelle = operation.usbLibelle;
+        old.sectionCode = operation.sectionCode;
+        old.sectionLibelle = operation.sectionLibelle;
         old.activiteCode = operation.activiteCode;
         old.activiteLibelle = operation.activiteLibelle;
         old.budgetActuelAE = operation.budgetActuelAE;
@@ -43,11 +46,15 @@ public class OperationService implements PanacheRepositoryBase<Operation, String
         old.exercice = operation.exercice;
         old.sourceFinancementCode = operation.sourceFinancementCode;
         old.sourceFinancementLibelle = operation.sourceFinancementLibelle;
-        old.bailleurId = operation.bailleurId;
+        old.bailleurCode = operation.bailleurCode;
         old.bailleurLibelle = operation.bailleurLibelle;
         old.ligneDepenseUuid = operation.ligneDepenseUuid;
         old.montantOperationAE = operation.montantOperationAE;
         old.montantOperationCP = operation.montantOperationCP;
+        old.montantDisponibleAE = operation.montantDisponibleAE;
+        old.montantDisponibleCP = operation.montantDisponibleCP;
+        old.disponibleRestantAE = operation.disponibleRestantAE;
+        old.disponibleRestantCP = operation.disponibleRestantCP;
         old.typeOperation = operation.typeOperation;
         old.natureEconomiqueLibelle = operation.natureEconomiqueLibelle;
         old.natureEconomiqueCode = operation.natureEconomiqueCode;

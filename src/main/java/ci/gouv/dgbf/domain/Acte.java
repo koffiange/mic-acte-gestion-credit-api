@@ -6,6 +6,7 @@ import ci.gouv.dgbf.enumeration.NatureTransaction;
 import ci.gouv.dgbf.enumeration.StatutActe;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
                 )
         })
 public class Acte extends BaseEntity{
+    public String referencePrejetActe;
     public String libelle;
     @Lob
     public String corpus;
@@ -36,6 +38,10 @@ public class Acte extends BaseEntity{
     public String reference;
     public LocalDate dateSignature;
     public String exercice;
+    public BigDecimal cumulRetranchementAE;
+    public BigDecimal cumulRetranchementCP;
+    public BigDecimal cumulAjoutAE;
+    public BigDecimal cumulAjoutCP;
 
     @ManyToOne
     public Demande demande;

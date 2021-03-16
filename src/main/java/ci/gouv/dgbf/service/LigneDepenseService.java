@@ -49,7 +49,7 @@ public class LigneDepenseService {
         List<LigneDepense> ligneDepenseList = new ArrayList<>();
         operationList.stream()
                 .map(operation -> findByCritere(operation.exercice, operation.sourceFinancementCode, operation.natureEconomiqueCode,
-                operation.activiteCode, operation.bailleurId, "", "", "", ""))
+                operation.activiteCode, operation.bailleurCode, "", "", "", ""))
                 .forEach(ligneDepenseList::addAll);
         return ligneDepenseList;
     }

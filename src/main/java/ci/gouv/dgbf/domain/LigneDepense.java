@@ -20,12 +20,16 @@ public class LigneDepense{
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
     public String activiteId;
-    public String activiteCode;
-    public String activiteLibelle;
     public String usbId;
+    public String usbCode;
+    public String usbLibelle;
     public String sectionId;
     public String sectionCode;
     public String sectionLibelle;
+    public String activiteCode;
+    public String activiteLibelle;
+    public String actionCode;
+    public String actionLibelle;
     public String uaId;
     public String bailleurId;
     public String bailleurLibelle;
@@ -37,10 +41,6 @@ public class LigneDepense{
     public BigDecimal montantDisponibleAE;
     public BigDecimal montantDisponibleCP;
     public String natureDepense;
-    public String actionCode;
-    public String actionLibelle;
-    public String usbCode;
-    public String usbLibelle;
     public String ligneStatut;
 
 
@@ -87,25 +87,45 @@ public class LigneDepense{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LigneDepense that = (LigneDepense) o;
-        return Objects.equals(ligneDepenseId, that.ligneDepenseId) &&
-                Objects.equals(exercice, that.exercice) &&
-                Objects.equals(activiteId, that.activiteId) &&
-                Objects.equals(natureEconomiqueId, that.natureEconomiqueId) &&
-                Objects.equals(natureEconomiqueCode, that.natureEconomiqueCode) &&
-                Objects.equals(natureEconomiqueLibelle, that.natureEconomiqueLibelle) &&
-                Objects.equals(activiteCode, that.activiteCode) &&
-                Objects.equals(activiteLibelle, that.activiteLibelle) &&
-                Objects.equals(usbId, that.usbId) &&
-                Objects.equals(sectionId, that.sectionId) &&
-                Objects.equals(sectionLibelle, that.sectionLibelle) &&
-                Objects.equals(sectionCode, that.sectionCode) &&
-                Objects.equals(uaId, that.uaId) &&
-                Objects.equals(montantAe, that.montantAe) &&
-                Objects.equals(montantCp, that.montantCp);
+        return Objects.equals(ligneDepenseId, that.ligneDepenseId) && Objects.equals(exercice, that.exercice) && Objects.equals(natureEconomiqueId, that.natureEconomiqueId) && Objects.equals(natureEconomiqueCode, that.natureEconomiqueCode) && Objects.equals(natureEconomiqueLibelle, that.natureEconomiqueLibelle) && Objects.equals(activiteId, that.activiteId) && Objects.equals(usbId, that.usbId) && Objects.equals(usbCode, that.usbCode) && Objects.equals(usbLibelle, that.usbLibelle) && Objects.equals(sectionId, that.sectionId) && Objects.equals(sectionCode, that.sectionCode) && Objects.equals(sectionLibelle, that.sectionLibelle) && Objects.equals(activiteCode, that.activiteCode) && Objects.equals(activiteLibelle, that.activiteLibelle) && Objects.equals(actionCode, that.actionCode) && Objects.equals(actionLibelle, that.actionLibelle) && Objects.equals(uaId, that.uaId) && Objects.equals(bailleurId, that.bailleurId) && Objects.equals(bailleurLibelle, that.bailleurLibelle) && Objects.equals(sourceFinancementId, that.sourceFinancementId) && Objects.equals(sourceFinancementCode, that.sourceFinancementCode) && Objects.equals(sourceFinancementLibelle, that.sourceFinancementLibelle) && Objects.equals(montantAe, that.montantAe) && Objects.equals(montantCp, that.montantCp) && Objects.equals(montantDisponibleAE, that.montantDisponibleAE) && Objects.equals(montantDisponibleCP, that.montantDisponibleCP) && Objects.equals(natureDepense, that.natureDepense) && Objects.equals(ligneStatut, that.ligneStatut);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ligneDepenseId, exercice, activiteId, natureEconomiqueId, natureEconomiqueCode, natureEconomiqueLibelle, activiteCode, activiteLibelle, usbId, sectionId, sectionLibelle, sectionCode, uaId, sectionId, montantAe, montantCp);
+        return Objects.hash(ligneDepenseId, exercice, natureEconomiqueId, natureEconomiqueCode, natureEconomiqueLibelle, activiteId, usbId, usbCode, usbLibelle, sectionId, sectionCode, sectionLibelle, activiteCode, activiteLibelle, actionCode, actionLibelle, uaId, bailleurId, bailleurLibelle, sourceFinancementId, sourceFinancementCode, sourceFinancementLibelle, montantAe, montantCp, montantDisponibleAE, montantDisponibleCP, natureDepense, ligneStatut);
+    }
+
+    @Override
+    public String toString() {
+        return "LigneDepense{" +
+                "ligneDepenseId='" + ligneDepenseId + '\'' +
+                ", exercice='" + exercice + '\'' +
+                ", natureEconomiqueId='" + natureEconomiqueId + '\'' +
+                ", natureEconomiqueCode='" + natureEconomiqueCode + '\'' +
+                ", natureEconomiqueLibelle='" + natureEconomiqueLibelle + '\'' +
+                ", activiteId='" + activiteId + '\'' +
+                ", usbId='" + usbId + '\'' +
+                ", usbCode='" + usbCode + '\'' +
+                ", usbLibelle='" + usbLibelle + '\'' +
+                ", sectionId='" + sectionId + '\'' +
+                ", sectionCode='" + sectionCode + '\'' +
+                ", sectionLibelle='" + sectionLibelle + '\'' +
+                ", activiteCode='" + activiteCode + '\'' +
+                ", activiteLibelle='" + activiteLibelle + '\'' +
+                ", actionCode='" + actionCode + '\'' +
+                ", actionLibelle='" + actionLibelle + '\'' +
+                ", uaId='" + uaId + '\'' +
+                ", bailleurId='" + bailleurId + '\'' +
+                ", bailleurLibelle='" + bailleurLibelle + '\'' +
+                ", sourceFinancementId='" + sourceFinancementId + '\'' +
+                ", sourceFinancementCode='" + sourceFinancementCode + '\'' +
+                ", sourceFinancementLibelle='" + sourceFinancementLibelle + '\'' +
+                ", montantAe=" + montantAe +
+                ", montantCp=" + montantCp +
+                ", montantDisponibleAE=" + montantDisponibleAE +
+                ", montantDisponibleCP=" + montantDisponibleCP +
+                ", natureDepense='" + natureDepense + '\'' +
+                ", ligneStatut='" + ligneStatut + '\'' +
+                '}';
     }
 }
