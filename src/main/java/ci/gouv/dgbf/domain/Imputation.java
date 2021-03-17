@@ -57,7 +57,7 @@ public class Imputation extends PanacheEntityBase {
 
     public static Imputation parseImputationDto(ImputationDto dto){
         return new Imputation(dto.uuid, dto.exercice, dto.section.code, dto.activiteDeService.adsCode,
-                              dto.natureEcnomique.code, dto.sourceFinancement.code, dto.bailleur.id);
+                              dto.natureEconomique.code, dto.sourceFinancement.code, dto.bailleur.code);
     }
 
     @Override

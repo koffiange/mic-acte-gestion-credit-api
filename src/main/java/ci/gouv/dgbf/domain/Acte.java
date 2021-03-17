@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
                 )
         })
 public class Acte extends BaseEntity{
-    public String referencePrejetActe;
+    public String referenceProjetActe;
     public String libelle;
     @Lob
     public String corpus;

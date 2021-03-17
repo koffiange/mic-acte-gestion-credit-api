@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.client.NatureEconomiqueClient;
-import ci.gouv.dgbf.dto.NatureEcnomique;
+import ci.gouv.dgbf.dto.NatureEconomique;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -37,17 +37,17 @@ public class NatureEconomiqueService implements NatureEconomiqueClient {
     }
 
     @Override
-    public List<NatureEcnomique> findAll() {
+    public List<NatureEconomique> findAll() {
         return client.findAll();
     }
 
     @Override
-    public NatureEcnomique findByCode(String code) {
+    public NatureEconomique findByCode(String code) {
         return client.findByCode(code);
     }
 
     @Override
-    public NatureEcnomique findByUuid(String uuid) {
+    public NatureEconomique findByUuid(String uuid) {
         return client.findByUuid(uuid);
     }
 

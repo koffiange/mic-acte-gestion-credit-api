@@ -2,19 +2,19 @@ package ci.gouv.dgbf.dto;
 
 import java.util.Objects;
 
-public class NatureEcnomique {
+public class NatureEconomique {
     public String code;
     public String libelleLong;
     public String sensComptable;
 
-    public NatureEcnomique() {
+    public NatureEconomique() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NatureEcnomique that = (NatureEcnomique) o;
+        NatureEconomique that = (NatureEconomique) o;
         return Objects.equals(code, that.code) &&
                 Objects.equals(libelleLong, that.libelleLong) &&
                 Objects.equals(sensComptable, that.sensComptable);
@@ -27,7 +27,7 @@ public class NatureEcnomique {
 
     @Override
     public String toString() {
-        return "NatureEcnomique{" +
+        return "NatureEconomique{" +
                 "code='" + code + '\'' +
                 ", libelleLong='" + libelleLong + '\'' +
                 ", sensComptable='" + sensComptable + '\'' +

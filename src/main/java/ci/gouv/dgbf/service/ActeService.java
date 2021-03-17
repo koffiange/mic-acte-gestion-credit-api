@@ -9,10 +9,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.StoredProcedureQuery;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ActeService implements PanacheRepositoryBase<Acte, String> {
+
+    private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
     @Inject
     SignataireService signataireService;
@@ -51,6 +56,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             operationService.deleteByActe(acteDto.acte.uuid);
             operationService.persistAll(acteDto.operationList, acteDto.acte);
         } else {
+            acteDto.acte.referenceProjetActe = this.generateReferenceProjetActe();
             acteDto.acte.persist();
             if (!acteDto.imputationDtoList.isEmpty())
                 imputationService.persistAll(acteDto.imputationDtoList, acteDto.acte);
@@ -59,6 +65,15 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         return Acte.findById(acteDto.acte.uuid);
     }
 
+    private String generateReferenceProjetActe(){
+        StringBuilder stringBuilder = new StringBuilder("");
+        stringBuilder.append(LocalDate.now().toString());
+        stringBuilder.append("-");
+        LOG.info("ReferenceProjetActe, date part : -->"+stringBuilder.toString());
+        stringBuilder.append(new Random().nextInt(10000000));
+        LOG.info("ReferenceProjetActe, number part : -->"+stringBuilder.toString());
+        return stringBuilder.toString();
+    }
 
     public void persist_old(ActeDto acteDto){
         if (acteDto.acte.uuid != null){

@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.resource.v1;
 
 
-import ci.gouv.dgbf.dto.NatureEcnomique;
+import ci.gouv.dgbf.dto.NatureEconomique;
 import ci.gouv.dgbf.service.NatureEconomiqueService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -21,19 +21,19 @@ public class NatureEconomiqueResource {
     NatureEconomiqueService natureEconomiqueService;
 
     @GET
-    public List<NatureEcnomique> findAll() {
+    public List<NatureEconomique> findAll() {
         return natureEconomiqueService.findAll();
     }
 
     @GET
     @Path("/codes/{code}")
-    public NatureEcnomique findByCode(@PathParam("code") String code) {
+    public NatureEconomique findByCode(@PathParam("code") String code) {
         return natureEconomiqueService.findByCode(code);
     }
 
     @GET
     @Path("/{uuid}")
-    public NatureEcnomique findByUuid(@PathParam("uuid") String uuid) {
+    public NatureEconomique findByUuid(@PathParam("uuid") String uuid) {
         return natureEconomiqueService.findByUuid(uuid);
     }
 
