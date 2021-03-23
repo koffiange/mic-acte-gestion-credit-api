@@ -12,22 +12,28 @@ import java.util.List;
 @ApplicationScoped
 public class SignataireService implements PanacheRepositoryBase<Signataire, String> {
 
-    public List<Signataire> findByActe(String uuid){
-        return list("acte.uuid", uuid);
+    public List<Signataire> findByActe(Acte acte){
+        return list("acte.uuid", acte.uuid);
     }
 
-    public void persistAll(List<Signataire> signataires, Acte acte){
-        signataires.forEach(signataire -> {
+    public void persistAll(List<Signataire> signataireList, Acte acte){
+        signataireList.forEach(signataire -> {
             signataire.acte = acte;
             signataire.persist();
         });
+    }
+
+    public List<Signataire> update(List<Signataire> signataireList, Acte acte){
+        this.deleteByActe(acte);
+        this.persistAll(signataireList, acte);
+        return signataireList;
     }
 
     public void deleteAll(List<Signataire> signataires){
         signataires.forEach(PanacheEntityBase::delete);
     }
 
-    public void deleteByActe(String uuid){
-        delete("acte.uuid", uuid);
+    public void deleteByActe(Acte acte){
+        delete("acte.uuid", acte.uuid);
     }
 }

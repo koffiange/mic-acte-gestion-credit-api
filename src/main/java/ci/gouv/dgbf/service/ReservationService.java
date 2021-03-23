@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.LigneOperation;
 import ci.gouv.dgbf.domain.Reservation;
 import ci.gouv.dgbf.enumeration.MotifReservation;
 import ci.gouv.dgbf.enumeration.StatutReservation;
@@ -14,12 +14,12 @@ import java.util.Map;
 
 @ApplicationScoped
 public class ReservationService  implements PanacheRepositoryBase<Reservation, String> {
-    public void persistReservationOfOperation(List<Operation> operationList){
-        operationList.stream().filter(operation -> operation.typeOperation.equals(TypeOperation.ORIGINE)).map(Reservation::new).forEach(reservation -> reservation.persist());
+    public void persistReservationOfOperation(List<LigneOperation> ligneOperationList){
+        ligneOperationList.stream().filter(operation -> operation.typeOperation.equals(TypeOperation.ORIGINE)).map(Reservation::new).forEach(reservation -> reservation.persist());
     }
 
-    public void dereserverParOperation(List<Operation> operationList){
-        operationList.stream().map(operation -> operation.uuid).forEach(this::dereserver);
+    public void dereserverParOperation(List<LigneOperation> ligneOperationList){
+        ligneOperationList.stream().map(operation -> operation.uuid).forEach(this::dereserver);
     }
 
     public void dereserver(String operationUuid){

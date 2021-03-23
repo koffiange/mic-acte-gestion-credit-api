@@ -2,7 +2,7 @@ package ci.gouv.dgbf.resource.v1;
 
 
 import ci.gouv.dgbf.domain.LigneDepense;
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.LigneOperation;
 import ci.gouv.dgbf.service.LigneDepenseService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
@@ -97,7 +97,7 @@ public class LigneDepenseResource{
 
     @POST
     @Path("/criteres/operations")
-    public List<LigneDepense> findByOperation(List<Operation> operationList){
-        return ligneDepenseService.findByOperation(operationList);
+    public List<LigneDepense> findByOperation(List<LigneOperation> ligneOperationList){
+        return ligneDepenseService.findByOperation(ligneOperationList);
     }
 }

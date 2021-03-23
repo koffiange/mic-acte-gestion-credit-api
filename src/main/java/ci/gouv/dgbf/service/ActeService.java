@@ -1,17 +1,12 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.*;
-import ci.gouv.dgbf.dto.ActeDto;
-import ci.gouv.dgbf.enumeration.StatutActe;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.StoredProcedureQuery;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -30,23 +25,98 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     @Inject
     EntityManager em;
 
+    public List<Acte> findByOperation(Operation operation){
+        return Acte.find("operation.uuid", operation.uuid).list();
+    }
 
+    public Acte findDefaultActeByOperation(Operation operation){
+        return Acte.find("operation.uuid AND acteParDefaut IS TRUE", operation.uuid).singleResult();
+    }
+
+    public void persist(Acte acte, Operation operation){
+        acte.operation = operation;
+        operation.persist();
+    }
+
+    public Acte update(Acte acte){
+        Acte old = findById(acte.uuid);
+        old.reference = acte.reference;
+        old.categorieActe = acte.categorieActe;
+        old.natureActe = acte.natureActe;
+        old.natureTransaction = acte.natureTransaction;
+        old.dateSignature = acte.dateSignature;
+        old.cumulRetranchementAE = acte.cumulRetranchementAE;
+        old.cumulRetranchementCP = acte.cumulRetranchementCP;
+        old.cumulAjoutAE = acte.cumulAjoutAE;
+        old.cumulAjoutCP = acte.cumulAjoutCP;
+        old.acteParDefaut = acte.acteParDefaut;
+        old.statutActe = acte.statutActe;
+        old.persist();
+        return old;
+    }
+
+    public void deleteByOperation(Operation operation){
+        List<Acte> acteList = this.findByOperation(operation);
+        acteList.forEach(acte -> signataireService.deleteByActe(acte));
+        Acte.delete("operation.uuid", operation.uuid);
+    }
+
+    public void delete(String uuid){
+        Acte.delete("uuid", uuid);
+    }
+
+    public boolean checkReferenceAlreadyExist(String reference){
+        return !Acte.find("reference", reference).list().isEmpty();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     public List<Acte> findByDemande(String uuid){
         return find("demande.uuid", uuid).list();
     }
 
-    public ActeDto findActeDtoById(String uuid) {
-        ActeDto acteDto = new ActeDto();
+    public OperationBag findActeDtoById(String uuid) {
+        OperationBag acteDto = new OperationBag();
 
         acteDto.acte = Acte.findById(uuid);
         // acteDto.imputationList = imputationService.findByActe(acteDto.acte);
-        acteDto.operationList = operationService.findByActe(acteDto.acte);
+        acteDto.ligneOperationList = operationService.findByActe(acteDto.acte);
         acteDto.signataireList = signataireService.findByActe(acteDto.acte.uuid);
 
         return acteDto;
     }
 
-    public Acte persist(ActeDto acteDto){
+    public Acte persist(OperationBag acteDto){
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
@@ -54,13 +124,13 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             if (!acteDto.imputationDtoList.isEmpty())
                 imputationService.persistAll(acteDto.imputationDtoList, acteDto.acte);
             operationService.deleteByActe(acteDto.acte.uuid);
-            operationService.persistAll(acteDto.operationList, acteDto.acte);
+            operationService.persistAll(acteDto.ligneOperationList, acteDto.acte);
         } else {
             acteDto.acte.referenceProjetActe = this.generateReferenceProjetActe();
             acteDto.acte.persist();
             if (!acteDto.imputationDtoList.isEmpty())
                 imputationService.persistAll(acteDto.imputationDtoList, acteDto.acte);
-            operationService.persistAll(acteDto.operationList, acteDto.acte);
+            operationService.persistAll(acteDto.ligneOperationList, acteDto.acte);
         }
         return Acte.findById(acteDto.acte.uuid);
     }
@@ -75,7 +145,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         return stringBuilder.toString();
     }
 
-    public void persist_old(ActeDto acteDto){
+    public void persist_old(OperationBag acteDto){
         if (acteDto.acte.uuid != null){
             Acte old = Acte.findById(acteDto.acte.uuid);
             this.update(old, acteDto.acte);
@@ -83,13 +153,13 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
             signataireService.deleteByActe(acteDto.acte.uuid);
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
             operationService.deleteByActe(acteDto.acte.uuid);
-            operationService.persistAll(acteDto.operationList, acteDto.acte);
+            operationService.persistAll(acteDto.ligneOperationList, acteDto.acte);
             reservationService.deleteByActe(acteDto.acte.uuid);
         } else {
             acteDto.acte.persist();
             signataireService.persistAll(acteDto.signataireList, acteDto.acte);
-            operationService.persistAll(acteDto.operationList, acteDto.acte);
-            reservationService.persistReservationOfOperation(acteDto.operationList);
+            operationService.persistAll(acteDto.ligneOperationList, acteDto.acte);
+            reservationService.persistReservationOfOperation(acteDto.ligneOperationList);
         }
     }
 
@@ -138,7 +208,5 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         deleteById(uuid);
     }
 
-    public boolean checkReferenceAlreadyExist(String reference){
-        return !Acte.find("reference", reference).list().isEmpty();
-    }
+     */
 }

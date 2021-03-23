@@ -1,10 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Exercice;
-import ci.gouv.dgbf.domain.Visa;
-import ci.gouv.dgbf.domain.VisaSequence;
-import ci.gouv.dgbf.dto.ActeDto;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;

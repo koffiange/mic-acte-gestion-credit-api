@@ -22,12 +22,12 @@ public class Reservation extends BaseEntity{
     public Reservation() {
     }
 
-    public Reservation(Operation operation) {
-        this.montantAE = operation.montantOperationAE;
-        this.montantCP = operation.montantOperationCP;
+    public Reservation(LigneOperation ligneOperation) {
+        this.montantAE = ligneOperation.montantOperationAE;
+        this.montantCP = ligneOperation.montantOperationCP;
         this.statutReservation = StatutReservation.EN_ATTENTE_CONSOMMATION;
         this.motifReservation = MotifReservation.ACTE_MOUVEMENT_CREDIT;
-        this.motifReservationId = operation.acte.uuid;
+        this.motifReservationId = ligneOperation.operation.uuid;
     }
 
     @Override

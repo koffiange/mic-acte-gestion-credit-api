@@ -42,11 +42,15 @@ public class Acte extends BaseEntity{
     public BigDecimal cumulRetranchementCP;
     public BigDecimal cumulAjoutAE;
     public BigDecimal cumulAjoutCP;
+    public Boolean acteParDefaut = false;
 
     @ManyToOne
     public Demande demande;
     @ManyToOne
     public ModeleVisa modeleVisa;
+    @ManyToOne
+    @JoinColumn(name = "OPERATION_ID")
+    public Operation operation;
 
     public Acte() {
     }

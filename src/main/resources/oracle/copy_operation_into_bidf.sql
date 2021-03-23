@@ -1,7 +1,7 @@
 create PROCEDURE COPY_OPERATION_INTO_BIDF(uuid VARCHAR2)
     IS
     CURSOR c_operation (acte_uuid VARCHAR2) IS
-select * from AGC.operation where acte_id = acte_uuid;
+select * from AGC.ligneOperation where acte_id = acte_uuid;
 r_acte AGC.ACTE%ROWTYPE;
 BEGIN
 SELECT * INTO r_acte FROM AGC.ACTE WHERE id = uuid;

@@ -1,67 +1,188 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Operation;
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import ci.gouv.dgbf.dto.OperationBag;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class OperationService implements PanacheRepositoryBase<Operation, String> {
+public class OperationService {
 
-    public List<Operation> findByActe(Acte acte){
+    private final Logger LOG = Logger.getLogger(this.getClass().getName());
+
+    @Inject
+    ActeService acteService;
+
+    @Inject
+    SignataireService signataireService;
+
+    @Inject
+    LigneOperationService ligneOperationService;
+
+    @Inject
+    ImputationService imputationService;
+
+    public List<OperationBag> listAll(){
+        List<Operation> operationList = Operation.listAll();
+        return operationList.stream().map(this::buildOperationDto).collect(Collectors.toList());
+    }
+
+    public OperationBag findById(String uuid){
+        OperationBag operationBag = new OperationBag();
+        operationBag.operation = Operation.findById(uuid);
+        operationBag.acte = acteService.findDefaultActeByOperation(operationBag.operation);
+        if(operationBag.acte != null)
+            operationBag.signataireList = signataireService.findByActe(operationBag.acte);
+        operationBag.ligneOperationList = ligneOperationService.findByOperation(operationBag.operation);
+        return operationBag;
+    }
+
+    private OperationBag buildOperationDto(Operation operation){
+        OperationBag operationBag = new OperationBag();
+        operationBag.operation = operation;
+        operationBag.acte = acteService.findDefaultActeByOperation(operation);
+        if (operationBag.acte != null) {
+            operationBag.signataireList = signataireService.findByActe(operationBag.acte);
+        }
+        operationBag.ligneOperationList = ligneOperationService.findByOperation(operation);
+        return operationBag;
+    }
+
+    public OperationBag persist(OperationBag operationBag){
+        operationBag.operation.codeOperation = this.generateReferenceProjetActe();
+        operationBag.operation.persist();
+        acteService.persist(operationBag.acte, operationBag.operation);
+        signataireService.persistAll(operationBag.signataireList, operationBag.acte);
+        imputationService.persistAll(operationBag.imputationDtoList, operationBag.acte);
+        ligneOperationService.persistAll(operationBag.ligneOperationList, operationBag.operation);
+        return operationBag;
+    }
+
+    public OperationBag update(OperationBag operationBag){
+        operationBag.operation = this.updateOperation(operationBag.operation);
+        operationBag.acte = acteService.update(operationBag.acte);
+        operationBag.signataireList = signataireService.update(operationBag.signataireList, operationBag.acte);
+        operationBag.ligneOperationList = ligneOperationService.updateAll(operationBag.ligneOperationList, operationBag.operation);
+        return operationBag;
+    }
+
+    public void appliquer(OperationBag operationBag){
+        this.updateOperation(operationBag.operation);
+        acteService.update(operationBag.acte);
+    }
+
+    private Operation updateOperation(Operation operation){
+        Operation old = Operation.findById(operation.uuid);
+        if (old == null)
+            return null;
+
+        old.codeOperation = operation.codeOperation;
+        old.statutOperation = operation.statutOperation;
+        old.variationAE = operation.variationAE;
+        old.variationCP = operation.variationCP;
+
+        return old;
+    }
+
+    public void delete(String uuid){
+        Operation operation = Operation.findById(uuid);
+        acteService.deleteByOperation(operation);
+        ligneOperationService.deleteByOperation(operation);
+        Operation.deleteById(uuid);
+    }
+
+    private String generateReferenceProjetActe(){
+        StringBuilder stringBuilder = new StringBuilder("");
+        stringBuilder.append(LocalDate.now().toString());
+        stringBuilder.append("-");
+        LOG.info("ReferenceProjetActe, date part : -->"+stringBuilder.toString());
+        stringBuilder.append(new Random().nextInt(10000000));
+        LOG.info("ReferenceProjetActe, number part : -->"+stringBuilder.toString());
+        return stringBuilder.toString();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    public List<LigneOperation> findByActe(Acte acte){
         return list("acte.uuid", acte.uuid);
     }
 
-    public void persist(Operation operation){
-        if (operation.uuid != null){
-            Operation old = Operation.findById(operation.uuid);
-            this.update(old, operation);
+    public void persist(LigneOperation ligneOperation){
+        if (ligneOperation.uuid != null){
+            LigneOperation old = LigneOperation.findById(ligneOperation.uuid);
+            this.update(old, ligneOperation);
         } else {
-            operation.persist();
+            ligneOperation.persist();
         }
     }
 
-    public void persistAll(List<Operation> operationList, Acte acte){
-        operationList.forEach(operation -> {
-            operation.acte = acte;
+    public void persistAll(List<LigneOperation> ligneOperationList, Operation operation){
+        ligneOperationList.forEach(ligneOperation -> {
+            ligneOperation.operation = operation;
             operation.persist();
         });
     }
 
 
-    private void update(Operation old, Operation operation){
-        old.acte = operation.acte;
-        old.usbCode = operation.usbCode;
-        old.usbLibelle = operation.usbLibelle;
-        old.sectionCode = operation.sectionCode;
-        old.sectionLibelle = operation.sectionLibelle;
-        old.activiteCode = operation.activiteCode;
-        old.activiteLibelle = operation.activiteLibelle;
-        old.budgetActuelAE = operation.budgetActuelAE;
-        old.budgetActuelCP = operation.budgetActuelCP;
-        old.disponibiliteCredit = operation.disponibiliteCredit;
-        old.effetOperation = operation.effetOperation;
-        old.exercice = operation.exercice;
-        old.sourceFinancementCode = operation.sourceFinancementCode;
-        old.sourceFinancementLibelle = operation.sourceFinancementLibelle;
-        old.bailleurCode = operation.bailleurCode;
-        old.bailleurLibelle = operation.bailleurLibelle;
-        old.ligneDepenseUuid = operation.ligneDepenseUuid;
-        old.montantOperationAE = operation.montantOperationAE;
-        old.montantOperationCP = operation.montantOperationCP;
-        old.montantDisponibleAE = operation.montantDisponibleAE;
-        old.montantDisponibleCP = operation.montantDisponibleCP;
-        old.disponibleRestantAE = operation.disponibleRestantAE;
-        old.disponibleRestantCP = operation.disponibleRestantCP;
-        old.typeOperation = operation.typeOperation;
-        old.natureEconomiqueLibelle = operation.natureEconomiqueLibelle;
-        old.natureEconomiqueCode = operation.natureEconomiqueCode;
+    private void update(LigneOperation old, LigneOperation ligneOperation){
+        old.operation = ligneOperation.operation;
+        old.usbCode = ligneOperation.usbCode;
+        old.usbLibelle = ligneOperation.usbLibelle;
+        old.sectionCode = ligneOperation.sectionCode;
+        old.sectionLibelle = ligneOperation.sectionLibelle;
+        old.activiteCode = ligneOperation.activiteCode;
+        old.activiteLibelle = ligneOperation.activiteLibelle;
+        old.budgetActuelAE = ligneOperation.budgetActuelAE;
+        old.budgetActuelCP = ligneOperation.budgetActuelCP;
+        old.disponibiliteCredit = ligneOperation.disponibiliteCredit;
+        old.effetOperation = ligneOperation.effetOperation;
+        old.exercice = ligneOperation.exercice;
+        old.sourceFinancementCode = ligneOperation.sourceFinancementCode;
+        old.sourceFinancementLibelle = ligneOperation.sourceFinancementLibelle;
+        old.bailleurCode = ligneOperation.bailleurCode;
+        old.bailleurLibelle = ligneOperation.bailleurLibelle;
+        old.ligneDepenseUuid = ligneOperation.ligneDepenseUuid;
+        old.montantOperationAE = ligneOperation.montantOperationAE;
+        old.montantOperationCP = ligneOperation.montantOperationCP;
+        old.montantDisponibleAE = ligneOperation.montantDisponibleAE;
+        old.montantDisponibleCP = ligneOperation.montantDisponibleCP;
+        old.disponibleRestantAE = ligneOperation.disponibleRestantAE;
+        old.disponibleRestantCP = ligneOperation.disponibleRestantCP;
+        old.typeOperation = ligneOperation.typeOperation;
+        old.natureEconomiqueLibelle = ligneOperation.natureEconomiqueLibelle;
+        old.natureEconomiqueCode = ligneOperation.natureEconomiqueCode;
         old.persist();
     }
 
     public void deleteByActe(String uuid){
         delete("acte.uuid", uuid);
     }
+
+     */
 }

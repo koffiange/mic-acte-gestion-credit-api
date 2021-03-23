@@ -1,9 +1,8 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.service.OperationService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.jboss.logging.annotations.Pos;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -16,41 +15,42 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
 @Tag(name="Operations", description="Opération relatives aux Opérations")
-public class OperationResource implements BaseResource<Operation> {
+public class OperationResource {
     @Inject
     OperationService operationService;
 
     @GET
-    @Override
-    public List<Operation> listAll() {
+    public List<OperationBag> listAll() {
         return operationService.listAll();
     }
 
     @GET
     @Path("/operation/{uuid}")
-    @Override
-    public Operation findById(@PathParam("uuid") String uuid) {
+    public OperationBag findById(@PathParam("uuid") String uuid) {
         return operationService.findById(uuid);
     }
 
     @POST
     @Path("/operation")
-    @Override
-    public void persist(Operation operation) {
-        operationService.persist(operation);
+    public OperationBag persist(OperationBag operationBag) {
+        return operationService.persist(operationBag);
     }
 
     @PUT
     @Path("/operation")
-    @Override
-    public void update(Operation operation) {
-        operationService.persist(operation);
+    public void update(OperationBag operationBag) {
+        operationService.update(operationBag);
+    }
+
+    @PUT
+    @Path("/operation/appliquer")
+    public void appliquer(OperationBag operationBag) {
+        operationService.appliquer(operationBag);
     }
 
     @DELETE
     @Path("/operation/{uuid}")
-    @Override
     public void delete(@PathParam("uuid") String uuid) {
-        operationService.deleteById(uuid);
+        operationService.delete(uuid);
     }
 }

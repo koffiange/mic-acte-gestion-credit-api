@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.LigneDepense;
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.LigneOperation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -45,9 +45,9 @@ public class LigneDepenseService {
     }
 
 
-    public List<LigneDepense> findByOperation(List<Operation> operationList){
+    public List<LigneDepense> findByOperation(List<LigneOperation> ligneOperationList){
         List<LigneDepense> ligneDepenseList = new ArrayList<>();
-        operationList.stream()
+        ligneOperationList.stream()
                 .map(operation -> findByCritere(operation.exercice, operation.sourceFinancementCode, operation.natureEconomiqueCode,
                 operation.activiteCode, operation.bailleurCode, "", "", "", ""))
                 .forEach(ligneDepenseList::addAll);
