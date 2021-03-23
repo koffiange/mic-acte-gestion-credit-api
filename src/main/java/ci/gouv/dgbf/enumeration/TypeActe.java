@@ -1,8 +1,8 @@
 package ci.gouv.dgbf.enumeration;
 
 public enum TypeActe {
-    ACTE_REGLEMENT("AR", "Acte de Règlement"),
-    ACTE_LEGISLATIF("AL", "Acte de Législatif");
+    LEGISLATIF("AL", "Acte de Législatif"),
+    REGLEMENTAIRE("AR", "Acte de Règlement");
 
     public String code;
     public String libelle;
