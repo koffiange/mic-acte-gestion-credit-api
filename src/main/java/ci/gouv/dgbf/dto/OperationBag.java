@@ -34,8 +34,7 @@ public class OperationBag {
     @Override
     public String toString() {
         return "OperationBag{" +
-                "acte=" + acte +
-                ", signataireList=" + signataireList +
+                ", acte=" + acte +
                 ", operation=" + operation +
                 ", ligneOperationList=" + ligneOperationList +
                 ", imputationDtoList=" + imputationDtoList +

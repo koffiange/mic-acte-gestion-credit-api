@@ -59,6 +59,7 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
 
     public Acte update(Acte acte){
         Acte old = findById(acte.uuid);
+        old.libelle = acte.libelle;
         old.reference = acte.reference;
         old.categorieActe = acte.categorieActe;
         old.natureActe = acte.natureActe;

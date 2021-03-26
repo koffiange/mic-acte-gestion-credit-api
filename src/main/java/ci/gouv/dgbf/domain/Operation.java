@@ -17,6 +17,9 @@ public class Operation extends BaseEntity{
     public StatutOperation statutOperation;
     public String exercice;
 
+    public Operation() {
+    }
+
     @Override
     public String toString() {
         return "Operation{" +

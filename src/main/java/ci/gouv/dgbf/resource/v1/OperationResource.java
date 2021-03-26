@@ -39,17 +39,14 @@ public class OperationResource {
 
     @POST
     @Path("/operation")
-    public OperationBag persist(OperationBag operationBag, @QueryParam("appliquer") boolean appliquer) {
-        OperationBag bag = operationService.persist(operationBag);
-        if (appliquer)
-            operationService.appliquer(bag);
-        return bag;
+    public OperationBag persist(OperationBag operationBag) {
+        return operationService.persist(operationBag);
     }
 
     @PUT
     @Path("/operation")
-    public void update(OperationBag operationBag) {
-        operationService.update(operationBag);
+    public OperationBag update(OperationBag operationBag) {
+        return operationService.update(operationBag);
     }
 
     @PUT

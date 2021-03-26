@@ -78,9 +78,10 @@ public class OperationService {
 
     public OperationBag update(OperationBag operationBag){
         operationBag.operation = this.updateOperation(operationBag.operation);
+        if (operationBag.operation!=null)
+            operationBag.ligneOperationList = ligneOperationService.updateAll(operationBag.ligneOperationList, operationBag.operation);
         operationBag.acte = acteService.update(operationBag.acte);
         operationBag.signataireList = signataireService.update(operationBag.signataireList, operationBag.acte);
-        operationBag.ligneOperationList = ligneOperationService.updateAll(operationBag.ligneOperationList, operationBag.operation);
         return operationBag;
     }
 
@@ -99,6 +100,7 @@ public class OperationService {
         old.statutOperation = operation.statutOperation;
         old.variationAE = operation.variationAE;
         old.variationCP = operation.variationCP;
+        old.persist();
 
         return old;
     }
