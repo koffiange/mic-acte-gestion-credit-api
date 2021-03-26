@@ -3,6 +3,7 @@ package ci.gouv.dgbf.service;
 import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
+import ci.gouv.dgbf.enumeration.StatutOperation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,7 +35,11 @@ public class OperationService {
         return operationList.stream().map(this::buildOperationDto).collect(Collectors.toList());
     }
 
-    public OperationBag findById(String uuid){
+    public Operation findById(String uuid){
+        return Operation.findById(uuid);
+    }
+
+    public OperationBag findBagById(String uuid){
         OperationBag operationBag = new OperationBag();
         operationBag.operation = Operation.findById(uuid);
         operationBag.acte = acteService.findDefaultActeByOperation(operationBag.operation);
@@ -80,8 +85,9 @@ public class OperationService {
     }
 
     public void appliquer(OperationBag operationBag){
+        operationBag.operation.statutOperation = StatutOperation.APPLIQUE;
         this.updateOperation(operationBag.operation);
-        acteService.update(operationBag.acte);
+        acteService.appliquer(operationBag);
     }
 
     private Operation updateOperation(Operation operation){

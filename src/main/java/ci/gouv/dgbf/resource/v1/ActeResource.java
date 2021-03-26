@@ -41,6 +41,12 @@ public class ActeResource implements BaseResource<Acte>{
     public void update(Acte acte) {
     }
 
+    @GET
+    @Path("/operation/{uuid}")
+    public List<Acte> findActeByOperation(@PathParam("uuid") String uuid){
+        return acteService.findByOperation(uuid);
+    }
+
     /*
     @POST
     @Path("/acte")
@@ -57,8 +63,6 @@ public class ActeResource implements BaseResource<Acte>{
         return acteService.persist(operationDto);
     }
 
-
-
     @PUT
     @Path("/acte/appliquer/{uuid}")
     public void appliquer(@PathParam("uuid") String uuid) {
@@ -72,7 +76,6 @@ public class ActeResource implements BaseResource<Acte>{
     public void appliquer(List<String> uuidList) {
         acteService.appliquerPlusieur(uuidList);
     }
-
      */
 
     @DELETE
@@ -81,8 +84,6 @@ public class ActeResource implements BaseResource<Acte>{
     public void delete(@PathParam("uuid") String uuid) {
         acteService.delete(uuid);
     }
-
-
 
     @GET
     @Path("/acte/check-reference-already-exist")

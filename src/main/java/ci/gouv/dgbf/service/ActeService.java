@@ -1,7 +1,9 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.*;
+import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.enumeration.ActeRole;
+import ci.gouv.dgbf.enumeration.StatutActe;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,6 +32,10 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
 
     public List<Acte> findByOperation(Operation operation){
         return Acte.find("operation.uuid", operation.uuid).list();
+    }
+
+    public List<Acte> findByOperation(String uuid){
+        return Acte.find("operation.uuid", uuid).list();
     }
 
     public Acte findDefaultActeByOperation(Operation operation){
@@ -66,6 +72,26 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
         old.statutActe = acte.statutActe;
         old.persist();
         return old;
+    }
+
+    public Acte appliquer(OperationBag operationBag){
+        LOG.info("ACTE APPLYING PROCESS");
+        this.unDefaultOperationActe(operationBag.operation);
+        LOG.info("UNDEFAULTED ACTE");
+        Acte old = findById(operationBag.acte.uuid);
+        old.acteParDefaut = ActeRole.PAR_DEFAUT;
+        old.statutActe = StatutActe.APPLIQUE;
+        old.persist();
+        LOG.info("APPLYED ACTE");
+        return old;
+    }
+
+    private void unDefaultOperationActe(Operation operation){
+        Acte defaultOperationActe = this.findDefaultActeByOperation(operation);
+        if (defaultOperationActe != null){
+            defaultOperationActe.acteParDefaut = ActeRole.NON_SPECIFIE;
+            defaultOperationActe.persist();
+        }
     }
 
     public void deleteByOperation(Operation operation){

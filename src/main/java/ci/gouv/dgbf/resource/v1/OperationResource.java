@@ -1,5 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
+import ci.gouv.dgbf.domain.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.service.OperationService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -26,14 +27,23 @@ public class OperationResource {
 
     @GET
     @Path("/operation/{uuid}")
-    public OperationBag findById(@PathParam("uuid") String uuid) {
+    public Operation findById(@PathParam("uuid") String uuid) {
         return operationService.findById(uuid);
+    }
+
+    @GET
+    @Path("/operation/bag/{uuid}")
+    public OperationBag findBagById(@PathParam("uuid") String uuid) {
+        return operationService.findBagById(uuid);
     }
 
     @POST
     @Path("/operation")
-    public OperationBag persist(OperationBag operationBag) {
-        return operationService.persist(operationBag);
+    public OperationBag persist(OperationBag operationBag, @QueryParam("appliquer") boolean appliquer) {
+        OperationBag bag = operationService.persist(operationBag);
+        if (appliquer)
+            operationService.appliquer(bag);
+        return bag;
     }
 
     @PUT
