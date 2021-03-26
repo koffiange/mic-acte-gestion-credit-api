@@ -1,5 +1,6 @@
 package ci.gouv.dgbf.service;
 
+import ci.gouv.dgbf.domain.Acte;
 import ci.gouv.dgbf.domain.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 
@@ -55,12 +56,18 @@ public class OperationService {
     }
 
     public OperationBag persist(OperationBag operationBag){
+        LOG.info("-- OPERATION PERSISTING PROCESS --");
         operationBag.operation.codeOperation = this.generateReferenceProjetActe();
         operationBag.operation.persist();
-        acteService.persist(operationBag.acte, operationBag.operation);
-        signataireService.persistAll(operationBag.signataireList, operationBag.acte);
-        imputationService.persistAll(operationBag.imputationDtoList, operationBag.acte);
+        LOG.info("OPERATION PERSISTING [OK]");
+        Acte acte = acteService.persist(operationBag.acte, operationBag.operation);
+        LOG.info(acte.toString());
+        LOG.info("ACTE PERSISTING [OK]");
+        // signataireService.persistAll(operationBag.signataireList, operationBag.acte);
+        imputationService.persistAll(operationBag.imputationDtoList, acte);
+        LOG.info("IMPUTATION PERSISTING [OK]");
         ligneOperationService.persistAll(operationBag.ligneOperationList, operationBag.operation);
+        LOG.info("LIGNE OPERATION PERSISTING [OK]");
         return operationBag;
     }
 
@@ -91,10 +98,19 @@ public class OperationService {
     }
 
     public void delete(String uuid){
+        LOG.info("-- DELETE PROCESS --");
         Operation operation = Operation.findById(uuid);
+        Acte acte = acteService.findDefaultActeByOperation(operation);
+        LOG.info("=> DEFAULT ACTE FOUND");
+        imputationService.deleteByActe(acte.uuid);
+        LOG.info("=> IMPUTATION DELETED");
+        acte.delete();
         acteService.deleteByOperation(operation);
+        LOG.info("=> ACTES DELETED");
         ligneOperationService.deleteByOperation(operation);
+        LOG.info("=> LIGNE OPERATION DELETED");
         Operation.deleteById(uuid);
+        LOG.info("=> OPERATION DELETED");
     }
 
     private String generateReferenceProjetActe(){

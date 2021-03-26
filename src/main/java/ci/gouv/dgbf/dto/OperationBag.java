@@ -30,4 +30,15 @@ public class OperationBag {
     public int hashCode() {
         return Objects.hash(acte, operation, ligneOperationList);
     }
+
+    @Override
+    public String toString() {
+        return "OperationBag{" +
+                "acte=" + acte +
+                ", signataireList=" + signataireList +
+                ", operation=" + operation +
+                ", ligneOperationList=" + ligneOperationList +
+                ", imputationDtoList=" + imputationDtoList +
+                '}';
+    }
 }

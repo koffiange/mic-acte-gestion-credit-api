@@ -1,9 +1,6 @@
 package ci.gouv.dgbf.domain;
 
-import ci.gouv.dgbf.enumeration.CategorieActe;
-import ci.gouv.dgbf.enumeration.NatureActe;
-import ci.gouv.dgbf.enumeration.NatureTransaction;
-import ci.gouv.dgbf.enumeration.StatutActe;
+import ci.gouv.dgbf.enumeration.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,7 +19,6 @@ import java.time.LocalDateTime;
                 )
         })
 public class Acte extends BaseEntity{
-    public String referenceProjetActe;
     public String libelle;
     @Lob
     public String corpus;
@@ -42,7 +38,8 @@ public class Acte extends BaseEntity{
     public BigDecimal cumulRetranchementCP;
     public BigDecimal cumulAjoutAE;
     public BigDecimal cumulAjoutCP;
-    public Boolean acteParDefaut = false;
+    @Enumerated(value = EnumType.STRING)
+    public ActeRole acteParDefaut;
 
     @ManyToOne
     public Demande demande;
@@ -58,7 +55,7 @@ public class Acte extends BaseEntity{
     @Override
     public String toString() {
         return "Acte{" +
-                "libelle='" + libelle + '\'' +
+                ", libelle='" + libelle + '\'' +
                 ", corpus='" + corpus + '\'' +
                 ", categorieActe=" + categorieActe +
                 ", natureActe=" + natureActe +
@@ -66,8 +63,15 @@ public class Acte extends BaseEntity{
                 ", natureTransaction=" + natureTransaction +
                 ", reference='" + reference + '\'' +
                 ", dateSignature=" + dateSignature +
+                ", exercice='" + exercice + '\'' +
+                ", cumulRetranchementAE=" + cumulRetranchementAE +
+                ", cumulRetranchementCP=" + cumulRetranchementCP +
+                ", cumulAjoutAE=" + cumulAjoutAE +
+                ", cumulAjoutCP=" + cumulAjoutCP +
+                ", acteParDefaut=" + acteParDefaut +
                 ", demande=" + demande +
                 ", modeleVisa=" + modeleVisa +
+                ", operation=" + operation +
                 ", uuid='" + uuid + '\'' +
                 '}';
     }

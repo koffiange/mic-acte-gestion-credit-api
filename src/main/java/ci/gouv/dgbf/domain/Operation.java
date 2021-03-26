@@ -13,4 +13,16 @@ public class Operation extends BaseEntity{
     public BigDecimal variationCP;
     public StatutOperation statutOperation;
     public String exercice;
+
+    @Override
+    public String toString() {
+        return "Operation{" +
+                "uuid='" + uuid + '\'' +
+                ", codeOperation='" + codeOperation + '\'' +
+                ", variationAE=" + variationAE +
+                ", variationCP=" + variationCP +
+                ", statutOperation=" + statutOperation +
+                ", exercice='" + exercice + '\'' +
+                '}';
+    }
 }

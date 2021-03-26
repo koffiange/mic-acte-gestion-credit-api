@@ -25,7 +25,7 @@ public class LigneOperationService implements PanacheRepositoryBase<LigneOperati
     public List<LigneOperation> persistAll(List<LigneOperation> ligneOperationList, Operation operation){
         ligneOperationList.forEach(ligneOperation -> {
             ligneOperation.operation = operation;
-            operation.persist();
+            ligneOperation.persist();
         });
         return ligneOperationList;
     }

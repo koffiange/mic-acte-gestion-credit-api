@@ -1,12 +1,15 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.*;
+import ci.gouv.dgbf.enumeration.ActeRole;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -30,12 +33,22 @@ public class ActeService implements PanacheRepositoryBase<Acte, String> {
     }
 
     public Acte findDefaultActeByOperation(Operation operation){
-        return Acte.find("operation.uuid AND acteParDefaut IS TRUE", operation.uuid).singleResult();
+        Map<String, Object> params = new HashMap<>();
+        params.put("uuid", operation.uuid);
+        params.put("default", ActeRole.PAR_DEFAUT);
+        try {
+            return Acte.find("operation.uuid = :uuid AND acteParDefaut = :default", params).singleResult();
+        } catch (Exception exception){
+            LOG.info("Exception !! "+exception.getMessage());
+            return null;
+        }
     }
 
-    public void persist(Acte acte, Operation operation){
+    public Acte persist(Acte acte, Operation operation){
         acte.operation = operation;
-        operation.persist();
+        acte.acteParDefaut = (this.findDefaultActeByOperation(operation) == null) ? ActeRole.PAR_DEFAUT : ActeRole.NON_SPECIFIE;
+        acte.persist();
+        return acte;
     }
 
     public Acte update(Acte acte){
