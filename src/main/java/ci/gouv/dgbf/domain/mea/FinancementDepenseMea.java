@@ -1,15 +1,21 @@
 package ci.gouv.dgbf.domain.mea;
 
+import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "FINANCEMENT_DEPENSES")
-public class FinancementDepenseMea {
+public class FinancementDepenseMea implements Serializable {
     @Id
     @Column(name = "FIND_ID")
     public String uuid;
@@ -27,10 +33,10 @@ public class FinancementDepenseMea {
     public String sourceFinancementId;
 
     @Column(name = "FIND_MONTANT_AE")
-    public String montantAE;
+    public BigDecimal montantAE;
 
     @Column(name = "FIND_MONTANT_CP")
-    public String montantCP;
+    public BigDecimal montantCP;
 
     @Column(name = "CAT_REG_ID")
     public String categorieRegulationId;
@@ -52,6 +58,21 @@ public class FinancementDepenseMea {
 
     @Column(name = "FIND_BVOTE_CP")
     public String budgetVoteCP;
+
+    public FinancementDepenseMea() {
+    }
+
+    public static FinancementDepenseMea parseLigneOperation(LigneOperation ligneOperation, Acte acte){
+        FinancementDepenseMea financementDepenseMea = new FinancementDepenseMea();
+        financementDepenseMea.uuid = UUID.randomUUID().toString();
+        financementDepenseMea.acteId = acte.uuid;
+        financementDepenseMea.ligneDepenseId = ligneOperation.ligneDepenseUuid;
+        financementDepenseMea.bailleurId = ligneOperation.bailleurId;
+        financementDepenseMea.sourceFinancementId = ligneOperation.sourceFinancementId;
+        financementDepenseMea.montantAE = ligneOperation.montantOperationAE;
+        financementDepenseMea.montantCP = ligneOperation.montantOperationCP;
+        return financementDepenseMea;
+    }
 
     @Override
     public boolean equals(Object o) {

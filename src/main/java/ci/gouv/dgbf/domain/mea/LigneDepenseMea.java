@@ -1,6 +1,7 @@
 package ci.gouv.dgbf.domain.mea;
 
 import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.Imputation;
 import ci.gouv.dgbf.domain.agc.LigneDepense;
 import ci.gouv.dgbf.domain.agc.LigneOperation;
 
@@ -72,16 +73,18 @@ public class LigneDepenseMea implements Serializable {
     public LigneDepenseMea() {
     }
 
-    public LigneDepenseMea(LigneOperation ligneOperation, Acte acte){
-        this.uuid = ligneOperation.ligneDepenseUuid;
-        this.exercice = ligneOperation.exercice;
-        this.acteId = acte.uuid;
-        this.natureEconomiqueId = ligneOperation.natureEconomiqueId;
-        this.activiteServiceId = ligneOperation.activiteId;
-        this.actionId = ligneOperation.actionId;
-        this.gouvernementCode = null;
-        this.sectionId = ligneOperation.sectionId;
-        this.natureDepenseId = ligneOperation.natureDepense;
+    public static LigneDepenseMea parseImputation(Imputation imputation){
+        LigneDepenseMea ligneDepenseMea = new LigneDepenseMea();
+        ligneDepenseMea.uuid = imputation.uuid;
+        ligneDepenseMea.exercice = imputation.exercice;
+        ligneDepenseMea.acteId = imputation.acte.uuid;
+        ligneDepenseMea.natureEconomiqueId = imputation.natureEconomiqueId;
+        ligneDepenseMea.activiteServiceId = imputation.activiteId;
+        ligneDepenseMea.actionId = imputation.actionId;
+        ligneDepenseMea.gouvernementCode = null;
+        ligneDepenseMea.sectionId = imputation.sectionId;
+        ligneDepenseMea.natureDepenseId = imputation.natureDepense;
+        return ligneDepenseMea;
     }
 
     @Override

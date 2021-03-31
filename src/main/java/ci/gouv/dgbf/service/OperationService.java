@@ -1,11 +1,13 @@
 package ci.gouv.dgbf.service;
 
 import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.Imputation;
 import ci.gouv.dgbf.domain.agc.LigneOperation;
 import ci.gouv.dgbf.domain.agc.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.enumeration.StatutOperation;
 import ci.gouv.dgbf.service.mea.ActeMeaService;
+import ci.gouv.dgbf.service.mea.FinancementDepenseMeaService;
 import ci.gouv.dgbf.service.mea.LigneDepenseMeaService;
 import ci.gouv.dgbf.service.mea.OperationMeaService;
 
@@ -43,6 +45,9 @@ public class OperationService {
     @Inject
     LigneDepenseMeaService ligneDepenseMeaService;
 
+    @Inject
+    FinancementDepenseMeaService financementDepenseMeaService;
+
 
 
     public List<OperationBag> listAll(){
@@ -58,8 +63,6 @@ public class OperationService {
         OperationBag operationBag = new OperationBag();
         operationBag.operation = Operation.findById(uuid);
         operationBag.acte = acteService.findDefaultActeByOperation(operationBag.operation);
-        if(operationBag.acte != null)
-            operationBag.signataireList = signataireService.findByActe(operationBag.acte);
         operationBag.ligneOperationList = ligneOperationService.findByOperation(operationBag.operation);
         return operationBag;
     }
@@ -113,6 +116,11 @@ public class OperationService {
         List<LigneOperation> ligneOperationList = ligneOperationService.findByOperation(operationBag.operation);
         operationMeaService.persistAll(ligneOperationList, operationBag.acte);
         LOG.info("=> Persist OperationMea OK");
+        List<Imputation> imputationList = imputationService.findByActe(operationBag.acte);
+        ligneDepenseMeaService.persistAll(imputationList);
+        LOG.info("=> Persist ligneDepense OK");
+        financementDepenseMeaService.persistAll(ligneOperationList, operationBag.acte);
+        LOG.info("=> Persist Financement OK");
     }
 
     private Operation updateOperation(Operation operation){
@@ -146,7 +154,7 @@ public class OperationService {
     }
 
     private String generateReferenceProjetActe(){
-        StringBuilder stringBuilder = new StringBuilder("");
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(LocalDate.now().toString());
         stringBuilder.append("-");
         LOG.info("ReferenceProjetActe, date part : -->"+stringBuilder.toString());

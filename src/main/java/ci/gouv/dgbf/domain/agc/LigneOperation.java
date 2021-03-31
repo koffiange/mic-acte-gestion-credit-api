@@ -25,6 +25,7 @@ public class LigneOperation extends BaseEntity{
     public String natureEconomiqueId;
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
+    public String sourceFinancementId;
     public String sourceFinancementCode;
     public String sourceFinancementLibelle;
     public String bailleurId;
