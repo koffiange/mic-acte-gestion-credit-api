@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.LigneOperation;
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
+import ci.gouv.dgbf.domain.agc.Operation;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;

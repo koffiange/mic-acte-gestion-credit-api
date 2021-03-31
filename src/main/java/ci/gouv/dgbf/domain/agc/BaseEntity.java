@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import ci.gouv.dgbf.enumeration.KafkaStatus;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;

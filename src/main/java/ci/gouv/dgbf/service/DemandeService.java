@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Demande;
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.agc.Demande;
+import ci.gouv.dgbf.domain.agc.Visa;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;

@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

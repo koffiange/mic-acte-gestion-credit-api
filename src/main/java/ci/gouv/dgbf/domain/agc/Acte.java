@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import ci.gouv.dgbf.enumeration.*;
 
@@ -28,11 +28,13 @@ public class Acte extends BaseEntity{
     public NatureActe natureActe;
     @Enumerated(EnumType.STRING)
     public StatutActe statutActe;
+    public LocalDateTime dateChangementStatut;
     @Enumerated(value = EnumType.STRING)
     public NatureTransaction natureTransaction;
     @Column(unique = true)
     public String reference;
     public LocalDate dateSignature;
+    public String signataire;
     public String exercice;
     public BigDecimal cumulRetranchementAE;
     public BigDecimal cumulRetranchementCP;

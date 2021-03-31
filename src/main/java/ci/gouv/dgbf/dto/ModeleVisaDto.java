@@ -1,7 +1,6 @@
 package ci.gouv.dgbf.dto;
 
-import ci.gouv.dgbf.domain.ModeleVisa;
-import jdk.dynalink.linker.LinkerServices;
+import ci.gouv.dgbf.domain.agc.ModeleVisa;
 
 import java.util.List;
 

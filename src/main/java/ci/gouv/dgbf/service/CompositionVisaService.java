@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Composition;
-import ci.gouv.dgbf.domain.ModeleVisa;
+import ci.gouv.dgbf.domain.agc.Composition;
+import ci.gouv.dgbf.domain.agc.ModeleVisa;
 import ci.gouv.dgbf.dto.VisaDto;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 

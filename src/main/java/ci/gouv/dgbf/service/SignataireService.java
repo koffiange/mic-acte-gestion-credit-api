@@ -1,8 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Acte;
-import ci.gouv.dgbf.domain.Signataire;
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.Signataire;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 

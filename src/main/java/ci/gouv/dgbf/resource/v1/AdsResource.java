@@ -1,7 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.ActiviteDeService;
-import ci.gouv.dgbf.dto.Activite;
+import ci.gouv.dgbf.domain.agc.ActiviteDeService;
 import ci.gouv.dgbf.service.AdsService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Bailleur;
+import ci.gouv.dgbf.domain.agc.Bailleur;
 import ci.gouv.dgbf.service.BailleurService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

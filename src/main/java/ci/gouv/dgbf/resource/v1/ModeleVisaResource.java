@@ -1,8 +1,7 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.ModeleVisa;
+import ci.gouv.dgbf.domain.agc.ModeleVisa;
 import ci.gouv.dgbf.dto.ModeleVisaDto;
-import ci.gouv.dgbf.dto.VisaDto;
 import ci.gouv.dgbf.service.ModeleVisaService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

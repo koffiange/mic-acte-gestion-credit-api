@@ -1,10 +1,9 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.VisaSequence;
+import ci.gouv.dgbf.domain.agc.VisaSequence;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class VisaSequenceService implements PanacheRepositoryBase<VisaSequence, String> {

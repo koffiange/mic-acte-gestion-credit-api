@@ -1,8 +1,8 @@
 package ci.gouv.dgbf.dto;
 
-import ci.gouv.dgbf.domain.ActiviteDeService;
-import ci.gouv.dgbf.domain.Bailleur;
-import ci.gouv.dgbf.domain.SourceFinancement;
+import ci.gouv.dgbf.domain.agc.ActiviteDeService;
+import ci.gouv.dgbf.domain.agc.Bailleur;
+import ci.gouv.dgbf.domain.agc.SourceFinancement;
 
 import java.math.BigDecimal;
 

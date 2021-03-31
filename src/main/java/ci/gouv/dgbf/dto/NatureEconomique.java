@@ -3,9 +3,12 @@ package ci.gouv.dgbf.dto;
 import java.util.Objects;
 
 public class NatureEconomique {
+    public String uuid;
     public String code;
     public String libelleLong;
     public String sensComptable;
+    public Boolean imputable;
+
 
     public NatureEconomique() {
     }

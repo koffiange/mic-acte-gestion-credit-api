@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.dto;
 
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.agc.Visa;
 
 public class VisaDto {
     public Visa visa;

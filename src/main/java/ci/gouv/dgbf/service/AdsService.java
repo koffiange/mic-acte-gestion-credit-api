@@ -1,19 +1,13 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.client.ActiviteClient;
-import ci.gouv.dgbf.client.NatureEconomiqueClient;
-import ci.gouv.dgbf.domain.ActiviteDeService;
-import ci.gouv.dgbf.dto.Activite;
+import ci.gouv.dgbf.domain.agc.ActiviteDeService;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.logging.Logger;
 

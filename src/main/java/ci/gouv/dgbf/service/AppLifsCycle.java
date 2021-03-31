@@ -1,6 +1,5 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Exercice;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 

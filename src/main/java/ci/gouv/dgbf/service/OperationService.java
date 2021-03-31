@@ -1,9 +1,13 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Acte;
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
+import ci.gouv.dgbf.domain.agc.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.enumeration.StatutOperation;
+import ci.gouv.dgbf.service.mea.ActeMeaService;
+import ci.gouv.dgbf.service.mea.LigneDepenseMeaService;
+import ci.gouv.dgbf.service.mea.OperationMeaService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -29,6 +33,17 @@ public class OperationService {
 
     @Inject
     ImputationService imputationService;
+
+    @Inject
+    ActeMeaService acteMeaService;
+
+    @Inject
+    OperationMeaService operationMeaService;
+
+    @Inject
+    LigneDepenseMeaService ligneDepenseMeaService;
+
+
 
     public List<OperationBag> listAll(){
         List<Operation> operationList = Operation.listAll();
@@ -89,6 +104,15 @@ public class OperationService {
         operationBag.operation.statutOperation = StatutOperation.APPLIQUE;
         this.updateOperation(operationBag.operation);
         acteService.appliquer(operationBag);
+        this.postApplication(operationBag);
+    }
+
+    public void postApplication(OperationBag operationBag){
+        acteMeaService.persist(operationBag.acte);
+        LOG.info("=> Persist ActeMea OK");
+        List<LigneOperation> ligneOperationList = ligneOperationService.findByOperation(operationBag.operation);
+        operationMeaService.persistAll(ligneOperationList, operationBag.acte);
+        LOG.info("=> Persist OperationMea OK");
     }
 
     private Operation updateOperation(Operation operation){
@@ -166,7 +190,7 @@ public class OperationService {
         }
     }
 
-    public void persistAll(List<LigneOperation> ligneOperationList, Operation operation){
+    public void persistAll(List<LigneOperation> ligneOperationList, OperationMea operation){
         ligneOperationList.forEach(ligneOperation -> {
             ligneOperation.operation = operation;
             operation.persist();

@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.LigneOperation;
-import ci.gouv.dgbf.domain.Reservation;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
+import ci.gouv.dgbf.domain.agc.Reservation;
 import ci.gouv.dgbf.enumeration.MotifReservation;
 import ci.gouv.dgbf.enumeration.StatutReservation;
 import ci.gouv.dgbf.enumeration.TypeOperation;

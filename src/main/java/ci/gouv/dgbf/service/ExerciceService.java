@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Exercice;
+import ci.gouv.dgbf.domain.agc.Exercice;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;

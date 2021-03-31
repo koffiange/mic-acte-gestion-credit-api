@@ -1,9 +1,9 @@
 package ci.gouv.dgbf.dto;
 
-import ci.gouv.dgbf.domain.Acte;
-import ci.gouv.dgbf.domain.LigneOperation;
-import ci.gouv.dgbf.domain.Operation;
-import ci.gouv.dgbf.domain.Signataire;
+import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
+import ci.gouv.dgbf.domain.agc.Operation;
+import ci.gouv.dgbf.domain.agc.Signataire;
 
 import java.util.List;
 import java.util.Objects;

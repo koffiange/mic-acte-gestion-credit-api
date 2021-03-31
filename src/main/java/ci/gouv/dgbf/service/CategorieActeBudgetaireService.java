@@ -1,7 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.CategorieActeBudgetaire;
-import ci.gouv.dgbf.domain.LigneDepense;
+import ci.gouv.dgbf.domain.agc.CategorieActeBudgetaire;
 import ci.gouv.dgbf.enumeration.CategorieActeUsage;
 import ci.gouv.dgbf.enumeration.NatureActe;
 import ci.gouv.dgbf.enumeration.TypeActe;

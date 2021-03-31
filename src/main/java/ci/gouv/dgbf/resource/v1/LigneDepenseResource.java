@@ -1,8 +1,8 @@
 package ci.gouv.dgbf.resource.v1;
 
 
-import ci.gouv.dgbf.domain.LigneDepense;
-import ci.gouv.dgbf.domain.LigneOperation;
+import ci.gouv.dgbf.domain.agc.LigneDepense;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
 import ci.gouv.dgbf.service.LigneDepenseService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

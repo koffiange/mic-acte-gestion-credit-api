@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import ci.gouv.dgbf.enumeration.*;
 
@@ -9,20 +9,28 @@ import java.util.Objects;
 @Entity
 public class LigneOperation extends BaseEntity{
     public String ligneDepenseUuid;
+    public String financementId;
+    public String plafonId;
     public String usbCode;
     public String usbLibelle;
+    public String sectionId;
     public String sectionCode;
     public String sectionLibelle;
+    public String activiteId;
     public String activiteCode;
     public String activiteLibelle;
+    public String actionId;
+    public String actionCode;
+    public String actionLibelle;
+    public String natureEconomiqueId;
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
     public String sourceFinancementCode;
     public String sourceFinancementLibelle;
+    public String bailleurId;
     public String bailleurCode;
     public String bailleurLibelle;
     public String exercice;
-    public String financementId;
     public BigDecimal budgetActuelAE;
     public BigDecimal budgetActuelCP;
     public BigDecimal montantDisponibleAE;
@@ -39,6 +47,7 @@ public class LigneOperation extends BaseEntity{
     public DisponibiliteCreditOperation disponibiliteCredit;
     @Enumerated(value = EnumType.STRING)
     public OrigineImputation origineImputation;
+    public String natureDepense;
 
     @ManyToOne
     @JoinColumn(name = "OPERATION_ID")

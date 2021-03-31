@@ -1,8 +1,7 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity

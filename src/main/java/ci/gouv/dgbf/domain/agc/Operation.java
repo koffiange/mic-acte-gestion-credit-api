@@ -1,6 +1,5 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
-import ci.gouv.dgbf.enumeration.StatutActe;
 import ci.gouv.dgbf.enumeration.StatutOperation;
 
 import javax.persistence.Entity;
@@ -22,7 +21,7 @@ public class Operation extends BaseEntity{
 
     @Override
     public String toString() {
-        return "Operation{" +
+        return "OperationMea{" +
                 "uuid='" + uuid + '\'' +
                 ", codeOperation='" + codeOperation + '\'' +
                 ", variationAE=" + variationAE +

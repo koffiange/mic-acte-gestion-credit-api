@@ -1,14 +1,12 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.ModeleVisa;
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.agc.ModeleVisa;
+import ci.gouv.dgbf.domain.agc.Visa;
 import ci.gouv.dgbf.dto.ModeleVisaDto;
-import ci.gouv.dgbf.dto.VisaDto;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.List;
 
 @ApplicationScoped
 public class ModeleVisaService implements PanacheRepositoryBase<ModeleVisa, String> {

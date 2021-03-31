@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.SourceFinancement;
+import ci.gouv.dgbf.domain.agc.SourceFinancement;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

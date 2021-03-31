@@ -1,8 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Bailleur;
-import ci.gouv.dgbf.domain.SourceFinancement;
-import ci.gouv.dgbf.service.BailleurService;
+import ci.gouv.dgbf.domain.agc.SourceFinancement;
 import ci.gouv.dgbf.service.SourceFinancementService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

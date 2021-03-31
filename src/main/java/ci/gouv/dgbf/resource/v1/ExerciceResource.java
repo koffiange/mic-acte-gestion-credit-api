@@ -1,7 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Demande;
-import ci.gouv.dgbf.domain.Exercice;
+import ci.gouv.dgbf.domain.agc.Exercice;
 import ci.gouv.dgbf.service.ExerciceService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 

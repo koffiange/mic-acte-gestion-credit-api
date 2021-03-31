@@ -1,7 +1,6 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "OPERATION_ACTE")

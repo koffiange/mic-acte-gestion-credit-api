@@ -1,11 +1,9 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.Bailleur;
-import ci.gouv.dgbf.domain.SourceFinancement;
+import ci.gouv.dgbf.domain.agc.Bailleur;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;

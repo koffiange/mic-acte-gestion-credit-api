@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Operation;
+import ci.gouv.dgbf.domain.agc.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.service.OperationService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;

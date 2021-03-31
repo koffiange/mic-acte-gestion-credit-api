@@ -1,7 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.LigneDepense;
-import ci.gouv.dgbf.domain.LigneOperation;
+import ci.gouv.dgbf.domain.agc.LigneDepense;
+import ci.gouv.dgbf.domain.agc.LigneOperation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -43,7 +43,6 @@ public class LigneDepenseService {
         query.setParameter("natureEconomiqueCode", natureEconomiqueCode);
         return query.getResultList();
     }
-
 
     public List<LigneDepense> findByOperation(List<LigneOperation> ligneOperationList){
         List<LigneDepense> ligneDepenseList = new ArrayList<>();

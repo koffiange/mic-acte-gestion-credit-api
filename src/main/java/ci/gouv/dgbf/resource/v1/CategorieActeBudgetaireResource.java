@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.CategorieActeBudgetaire;
+import ci.gouv.dgbf.domain.agc.CategorieActeBudgetaire;
 import ci.gouv.dgbf.enumeration.CategorieActeUsage;
 import ci.gouv.dgbf.enumeration.NatureActe;
 import ci.gouv.dgbf.enumeration.TypeActe;
@@ -8,7 +8,6 @@ import ci.gouv.dgbf.service.CategorieActeBudgetaireService;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

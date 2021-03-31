@@ -1,6 +1,7 @@
 package ci.gouv.dgbf.service;
 
-import ci.gouv.dgbf.domain.*;
+import ci.gouv.dgbf.domain.agc.Acte;
+import ci.gouv.dgbf.domain.agc.Operation;
 import ci.gouv.dgbf.dto.OperationBag;
 import ci.gouv.dgbf.enumeration.ActeRole;
 import ci.gouv.dgbf.enumeration.StatutActe;

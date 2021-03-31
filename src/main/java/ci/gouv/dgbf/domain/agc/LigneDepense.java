@@ -1,4 +1,4 @@
-package ci.gouv.dgbf.domain;
+package ci.gouv.dgbf.domain.agc;
 
 import org.hibernate.annotations.Immutable;
 
@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity(name = "V_LIGNE_DEPENSE_IMPUTABLE")
 @Immutable
@@ -15,19 +14,22 @@ public class LigneDepense{
     @Id
     @Column(updatable = false, nullable = false)
     public String ligneDepenseId;
+    public String financementId;
+    public String plafonId;
     public String exercice;
     public String natureEconomiqueId;
     public String natureEconomiqueCode;
     public String natureEconomiqueLibelle;
-    public String activiteId;
     public String usbId;
     public String usbCode;
     public String usbLibelle;
     public String sectionId;
     public String sectionCode;
     public String sectionLibelle;
+    public String activiteId;
     public String activiteCode;
     public String activiteLibelle;
+    public String actionId;
     public String actionCode;
     public String actionLibelle;
     public String uaId;

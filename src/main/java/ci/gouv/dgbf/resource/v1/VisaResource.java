@@ -1,6 +1,6 @@
 package ci.gouv.dgbf.resource.v1;
 
-import ci.gouv.dgbf.domain.Visa;
+import ci.gouv.dgbf.domain.agc.Visa;
 import ci.gouv.dgbf.service.VisaService;
 import io.quarkus.panache.common.Sort;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
